@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dish Dash</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+<body class="bg-white flex justify-center items-center min-h-screen px-4">
+
+    <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
+        <form action="{{ url_for('register') }}" method="POST">
+            <div class="text-2xl font-bold text-center mb-4">Create an Account</div>
+
+            <div class="mt-4">
+                <label class="block font-medium mt-2">Username</label>
+                <input type="text" name="username" class="w-full p-2 border rounded" placeholder="Username" value="" required>
+            </div>
+
+            <div class="mt-4">
+                <label class="block font-medium mt-2">Email</label>
+                <input type="text" name="email" class="w-full p-2 border rounded" placeholder="Email" value="" required>
+            </div>
+    
+            <div class="mt-4">
+                <label class="block font-medium mt-2">Password</label>
+                <input type="password" name="password" class="w-full p-2 border rounded" placeholder="••••••••" value="" required>
+            </div>
+    
+            <button class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Create New Account</button>
+        </form>
+        <div class="mt-4 text-center">Already have an account? <a class="underline" href="{{ url_for('login') }}">Log in</a></div>
+    </div>
+</body>
+
+</html>
