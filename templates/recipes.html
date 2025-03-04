@@ -4,24 +4,24 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Dish Dash</title>
-   <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
-   <link href="../static/css/output.css" rel="stylesheet">
+   <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon">
+   <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100 h-screen flex justify-center items-center relative">
   
    <!-- Back arrow linking to home page -->
-   <a href="index.html" class="absolute top-4 left-4">
-       <img src="../static/img/back-arrow.svg" alt="Logo" class="w-12 h-12">
+   <a href="{{ url_for('index') }}" class="absolute top-4 left-4">
+       <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
    </a>
 
    <!-- Company Logo-->
    <a class="absolute top-4 w-full flex justify-center pointer-events-none">
-     <img src="../static/img/logo.png" alt="Company Logo" class="w-30 h-30">
+     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Company Logo" class="w-30 h-30">
    </a>
 
    <!-- Plus square for adding recipes -->
    <a href="#" class="absolute top-4 right-4">
-       <img src="../static/img/plus-square.svg" alt="Logo" class="w-12 h-12">
+       <img src="{{ url_for('static', filename='img/plus-square.svg') }}" alt="Logo" class="w-12 h-12">
    </a>
 
 <!-- Main content container -->
