@@ -1,15 +1,15 @@
 import os
 import bcrypt
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_pymongo import PyMongo
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
-
-
 
 # Set env variables
 MONGO_URI = os.getenv("MONGO_URI")
@@ -24,8 +24,6 @@ if not app.config["SECRET_KEY"]:
     print("Error: SECRET_KEY is not set. Please check your .env file.")
 else:
     print("SECRET_KEY loaded successfully.")
-
-
 
 # Access the database
 app.config["MONGO_URI"] = MONGO_URI
@@ -42,7 +40,28 @@ try:
 except Exception as e:
     print(f"Error accessing the 'users' collection: {e}")
 
+# Init login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
+class User(UserMixin):
+    def __init__(self, user_id, username):
+        self.id = user_id
+        self.username = username
+
+    @staticmethod
+    def get(user_id):
+        """Fetch user from MongoDB by user_id."""
+        user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+        if user_data:
+            return User(str(user_data['_id']), user_data['username'])
+        return None
+
+# User loader for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)  # returns User object or None
 
 ####             ####
 #                   #
@@ -62,14 +81,68 @@ def index():
 
     return render_template('index.html', username=username)
 
+
+
 ####               ####
 #                     #
 #       PROFILE       #
 #                     #
 ####               #### 
-@app.route('/profile')
+UPLOAD_FOLDER = 'static/img/uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    """Check if the file has a valid extension"""
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
- return render_template('profile.html')
+    username = None
+    
+    if 'user_id' in session:
+        user_id = ObjectId(session['user_id'])
+        user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+
+        if user:
+            username = user['username']
+
+    profile_pic = user.get('profile_picture', 'default_picture.jpg')  # set default photo
+
+    if request.method == 'POST':
+        if 'profile-pic' not in request.files:
+            print("No file selected!")
+            return redirect(request.url)
+
+        file = request.files['profile-pic']
+        if file.filename == '':
+            print("No file selected!")
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_ext = filename.rsplit('.', 1)[1].lower()
+            new_filename = f"{user['username']}.{file_ext}" 
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
+            
+            file.save(file_path)
+
+            # add to mongodb record
+            users_collection.update_one({'_id': user_id}, {"$set": {'profile_picture': new_filename}})
+            
+            # Update session
+            session['profile_picture'] = f'img/uploads/{new_filename}'
+
+            print("Profile picture updated successfully!")
+            return redirect(url_for('profile'))  # Refresh
+
+        else:
+            print("Invalid file format! Only PNG, JPG, and JPEG are allowed.")
+            
+    return render_template('profile.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
+
+
 
 ####               ####
 #                     #
@@ -79,6 +152,8 @@ def profile():
 @app.route('/recipes')
 def recipes():
  return render_template('recipes.html')
+
+
 
 ####                ####
 #                      #
@@ -92,10 +167,8 @@ def register():
         password = request.form['password'].strip()
         email = request.form['email']
 
-        # ADD MORE CHECKS HERE 
         # Validate email format (basic check for @, invalid characters, email format, password strength, etc.)
-        
-        # User exists already?
+        # User exists already? 
         existing_user = users_collection.find_one({'username': username})
         if existing_user:
             print("User already exists!") # change this
@@ -116,6 +189,8 @@ def register():
 
     return render_template('register.html')
 
+
+
 ####              ####
 #                    #
 #       LOG IN       #
@@ -131,10 +206,11 @@ def login():
         email = request.form['email'].strip()
         password = request.form['password']
         
-        # User exists already?
-        email = mongo.db.users.find_one({'email': email})
-        if email and bcrypt.checkpw(password.encode('utf-8'), email['password']):
-            session['user_id'] = str(email['_id'])
+        # User exists check
+        user = mongo.db.users.find_one({'email': email})
+        if email and bcrypt.checkpw(password.encode('utf-8'), user['password']):
+            session['user_id'] = str(user['_id'])  # Set user ID in the session
+            login_user(User(str(user['_id']), user['username']))  # Log in Flask-Login
             print("Login successful!") # change this
             return redirect(url_for('index'))
         else:
@@ -143,15 +219,19 @@ def login():
 
     return render_template('login.html')
 
+
+
 ####              ####
 #                    #
 #       LOGOUT       #
 #                    #
 ####              #### 
 @app.route('/logout')
+@login_required
 def logout():
-    session.pop('user_id', None)
-    return redirect(url_for('index'))
+    session.pop('user_id', None)  # Remove user_id from session
+    logout_user()  # Log out of Flask-Login
+    return redirect(url_for('index')) 
 
 
 
