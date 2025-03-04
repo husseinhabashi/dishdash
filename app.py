@@ -86,11 +86,13 @@ def index():
 
         if user:
             username = user['username']
+            profile_pic = user.get('profile_picture', 'default_picture.jpg')  # Get profile picture if it exists
         else:
             print("DEBUG: User not found in MongoDB!")
             return redirect(url_for('login'))
 
     return render_template('index.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
+
 
 
 
@@ -111,7 +113,6 @@ def allowed_file(filename):
 @login_required
 def profile():
     username = None
-    profile_pic = 'default_picture.jpg'  # Default profile picture
     
     if 'user_id' in session:
         user_id = session['user_id']
@@ -129,6 +130,8 @@ def profile():
         else:
             print("DEBUG: User not found in MongoDB!")
             return redirect(url_for('login'))
+        
+    profile_pic = user.get('profile_picture', 'default_picture.jpg')
 
     if request.method == 'POST':
         if 'profile-pic' not in request.files:
