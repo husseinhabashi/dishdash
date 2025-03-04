@@ -71,15 +71,26 @@ def load_user(user_id):
 @app.route('/')
 def index():
     username = None
-    
+    profile_pic = 'default_picture.jpg'  # Default profile picture
+
     if 'user_id' in session:
         user_id = session['user_id']
-        user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+        try:
+            # Ensure user_id is properly converted to ObjectId
+            user_id = ObjectId(user_id)
+        except Exception as e:
+            print(f"DEBUG: Invalid user_id format: {e}")
+            return redirect(url_for('login'))
+
+        user = mongo.db.users.find_one({'_id': user_id})
 
         if user:
             username = user['username']
+        else:
+            print("DEBUG: User not found in MongoDB!")
+            return redirect(url_for('login'))
 
-    return render_template('index.html', username=username)
+    return render_template('index.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
 
 
 
@@ -100,15 +111,24 @@ def allowed_file(filename):
 @login_required
 def profile():
     username = None
+    profile_pic = 'default_picture.jpg'  # Default profile picture
     
     if 'user_id' in session:
-        user_id = ObjectId(session['user_id'])
-        user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+        user_id = session['user_id']
+        try:
+            # Ensure user_id is properly converted to ObjectId
+            user_id = ObjectId(user_id)
+        except Exception as e:
+            print(f"DEBUG: Invalid user_id format: {e}")
+            return redirect(url_for('login'))
+
+        user = mongo.db.users.find_one({'_id': user_id})
 
         if user:
             username = user['username']
-
-    profile_pic = user.get('profile_picture', 'default_picture.jpg')  # set default photo
+        else:
+            print("DEBUG: User not found in MongoDB!")
+            return redirect(url_for('login'))
 
     if request.method == 'POST':
         if 'profile-pic' not in request.files:
@@ -123,24 +143,27 @@ def profile():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file_ext = filename.rsplit('.', 1)[1].lower()
-            new_filename = f"{user['username']}.{file_ext}" 
+            new_filename = f"{user['username']}.{file_ext}"  # username.extension
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
             
-            file.save(file_path)
+            file.save(file_path)  # Save to uploads folder
 
-            # add to mongodb record
-            users_collection.update_one({'_id': user_id}, {"$set": {'profile_picture': new_filename}})
-            
-            # Update session
-            session['profile_picture'] = f'img/uploads/{new_filename}'
+            # Update MongoDB
+            result = mongo.db.users.update_one({'_id': user_id}, {"$set": {'profile_picture': new_filename}})
+            print(f"DEBUG: MongoDB Update Result - Modified Count: {result.modified_count}")
 
-            print("Profile picture updated successfully!")
-            return redirect(url_for('profile'))  # Refresh
+            if result.modified_count > 0:
+                print("Profile picture updated successfully!")
+            else:
+                print("DEBUG: Failed to update profile picture to MongoDB")
+
+            return redirect(url_for('profile'))  # Refresh page to reflect changes
 
         else:
             print("Invalid file format! Only PNG, JPG, and JPEG are allowed.")
-            
+
     return render_template('profile.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
+
 
 
 

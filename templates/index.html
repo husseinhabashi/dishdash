@@ -15,7 +15,7 @@
             {% if session['user_id'] %}
             <!-- Profile Picture -->
             <a href="{{ url_for('profile') }}">
-                <img src="{{ url_for('static', filename=session.get('profile_picture', 'img/default_picture.jpg')) }}" alt="Profile" class="w-10 h-10 rounded-full border-1 border-grey">
+                <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile" class="w-10 h-10 rounded-full border-1 border-grey">
             </a>
             {% else %}
             <div class="w-10"></div>  <!-- Placeholder to maintain spacing -->

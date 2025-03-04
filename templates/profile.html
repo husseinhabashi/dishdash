@@ -19,7 +19,7 @@
 
         <!-- Profile Picture Upload -->
         <div class="text-center">
-            <img id="profile-img" src="{{ url_for('static', filename=session.get('profile_picture', 'img/default_picture.jpg')) }}" 
+            <img id="profile-img" src="{{ url_for('static', filename=profile_pic) }}" 
                 alt="Profile" class="w-24 h-24 mx-auto rounded-full border-2 border-gray-300">
             
             <form action="{{ url_for('profile') }}" method="POST" enctype="multipart/form-data">
