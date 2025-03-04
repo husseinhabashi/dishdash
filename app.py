@@ -113,7 +113,8 @@ def allowed_file(filename):
 @login_required
 def profile():
     username = None
-    
+    user_id = None
+    user = None
     if 'user_id' in session:
         user_id = session['user_id']
         try:
@@ -134,36 +135,49 @@ def profile():
     profile_pic = user.get('profile_picture', 'default_picture.jpg')
 
     if request.method == 'POST':
-        if 'profile-pic' not in request.files:
-            print("No file selected!")
-            return redirect(request.url)
+        if 'profile-pic' in request.files:
 
-        file = request.files['profile-pic']
-        if file.filename == '':
-            print("No file selected!")
-            return redirect(request.url)
 
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_ext = filename.rsplit('.', 1)[1].lower()
-            new_filename = f"{user['username']}.{file_ext}"  # username.extension
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
+            file = request.files['profile-pic']
+            if file.filename == '':
+                print("No file selected!")
+                return redirect(request.url)
+
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_ext = filename.rsplit('.', 1)[1].lower()
+                new_filename = f"{user['username']}.{file_ext}"  # username.extension
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
             
-            file.save(file_path)  # Save to uploads folder
+                file.save(file_path)  # Save to uploads folder
 
-            # Update MongoDB
-            result = mongo.db.users.update_one({'_id': user_id}, {"$set": {'profile_picture': new_filename}})
+                # Update MongoDB
+                result = mongo.db.users.update_one({'_id': user_id}, {"$set": {'profile_picture': new_filename}})
+                print(f"DEBUG: MongoDB Update Result - Modified Count: {result.modified_count}")
+
+                if result.modified_count > 0:
+                    print("Profile picture updated successfully!")
+                else:
+                    print("DEBUG: Failed to update profile picture to MongoDB")
+
+                return redirect(url_for('profile'))  # Refresh page to reflect changes
+
+            else:
+                print("Invalid file format! Only PNG, JPG, and JPEG are allowed.")
+        else:
+            # no file, so assume its a username updating form
+            username = request.form['username'].strip()
+            if len(username) == 0: #empty username
+                return redirect(url_for('profile'))
+            
+            existing_user = users_collection.find_one({'username': username}) #dont want to let you use someone elses username
+            if existing_user:
+                return redirect(url_for('profile'))
+
+            result = users_collection.update_one({'_id': user_id}, {"$set": {'username': username}})
             print(f"DEBUG: MongoDB Update Result - Modified Count: {result.modified_count}")
 
-            if result.modified_count > 0:
-                print("Profile picture updated successfully!")
-            else:
-                print("DEBUG: Failed to update profile picture to MongoDB")
-
             return redirect(url_for('profile'))  # Refresh page to reflect changes
-
-        else:
-            print("Invalid file format! Only PNG, JPG, and JPEG are allowed.")
 
     return render_template('profile.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
 

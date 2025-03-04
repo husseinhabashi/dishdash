@@ -33,24 +33,26 @@
                 </button>
             </form>
         </div>
-
+        <form action="{{ url_for('profile') }}" method="POST">
         <!-- Username Input -->
         <div class="mt-4">
             <p class="font-medium text-gray-700">Your username is <span class="font-bold">{{ username }}</span></p>
             <label class="block font-medium mt-2">New Username</label>
-            <input type="text" class="w-full p-2 border rounded" placeholder="Enter new username">
+            <input type="text" name="username" class="w-full p-2 border rounded" placeholder="Enter new username">
         </div>
 
         <!-- Password Input -->
         <div class="mt-4">
             <label class="block font-medium">New Password</label>
-            <input type="password" class="w-full p-2 border rounded" placeholder="Enter new password">
+            <input type="password" name="password" class="w-full p-2 border rounded" placeholder="Enter new password" >
         </div>
 
         <!-- Save Button -->
-        <button class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+        <button type="submit" class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
             Save Changes
         </button>
+
+    </form>
     </div>
     <script>
         document.getElementById("profile-pic").addEventListener("change", function(event) {
