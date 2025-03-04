@@ -1,56 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Dish Dash</title>
-   <link rel="icon" href="../static/img/logo.jpeg" type="image/x-icon">
-   <link href="../static/css/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dish Dash</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-white flex justify-center items-center h-screen relative">
-  
-   <!-- Logo linking to home page -->
-   <a href="index.html" class="absolute top-4 left-4">
-       <img src="../static/img/back-arrow.svg" alt="Logo" class="w-12 h-12">
-   </a>
+    
+    <!-- Logo linking to home page -->
+    <a href="{{ url_for('index') }}" class="absolute top-4 left-4">
+        <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo" class="w-12 h-12">
+    </a>
 
+    <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold text-center mb-4">Edit Profile</h2>
 
-   <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
-       <h2 class="text-2xl font-bold text-center mb-4">Edit Profile</h2>
+        <!-- Profile Picture Upload -->
+        <div class="text-center">
+            <img id="profile-img" src="{{ url_for('static', filename=profile_pic) }}" 
+                alt="Profile" class="w-24 h-24 mx-auto rounded-full border-2 border-gray-300">
+            
+            <form action="{{ url_for('profile') }}" method="POST" enctype="multipart/form-data">
+                <label for="profile-pic" class="mt-2 inline-block bg-green-500 text-white py-1 px-3 rounded cursor-pointer hover:bg-green-600 text-sm">
+                    Choose File
+                </label>
+                <input type="file" name="profile-pic" id="profile-pic" class="hidden" accept="image/*">
 
+                <button type="submit" class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+                    Upload
+                </button>
+            </form>
+        </div>
+        <form action="{{ url_for('profile') }}" method="POST">
+        <!-- Username Input -->
+        <div class="mt-4">
+            <p class="font-medium text-gray-700">Your username is <span class="font-bold">{{ username }}</span></p>
+            <label class="block font-medium mt-2">New Username</label>
+            <input type="text" name="username" class="w-full p-2 border rounded" placeholder="Enter new username">
+        </div>
 
-       <!-- Profile Picture Upload -->
-       <div class="text-center">
-           <img id="profile-img" src="../static/img/profile.jpg" alt="Profile" class="w-24 h-24 mx-auto rounded-full border-2 border-gray-300">
-          
-           <label for="profile-pic" class="mt-2 inline-block bg-green-500 text-white py-1 px-3 rounded cursor-pointer hover:bg-green-600 text-sm">
-               Choose File
-           </label>
-           <input type="file" id="profile-pic" class="hidden" accept="image/*">
-       </div>
+        <!-- Password Input -->
+        <div class="mt-4">
+            <label class="block font-medium">New Password</label>
+            <input type="password" name="password" class="w-full p-2 border rounded" placeholder="Enter new password" >
+        </div>
 
+        <!-- Save Button -->
+        <button type="submit" class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+            Save Changes
+        </button>
 
-       <!-- Username Input -->
-       <div class="mt-4">
-           <p class="font-medium text-gray-700">Your username is <span class="font-bold">[Username]</span></p>
-           <label class="block font-medium mt-2">New Username</label>
-           <input type="text" class="w-full p-2 border rounded" placeholder="Enter new username">
-       </div>
-
-
-       <!-- Password Input -->
-       <div class="mt-4">
-           <label class="block font-medium">New Password</label>
-           <input type="password" class="w-full p-2 border rounded" placeholder="Enter new password">
-       </div>
-
-
-       <!-- Save Button -->
-       <button class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
-           Save Changes
-       </button>
-   </div>
-
-
+    </form>
+    </div>
+    <script>
+        document.getElementById("profile-pic").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profile-img").src = e.target.result; // Preview
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 </html>
