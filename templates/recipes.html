@@ -24,59 +24,75 @@
        <img src="{{ url_for('static', filename='img/plus-square.svg') }}" alt="Logo" class="w-12 h-12">
    </a>
 
-<!-- Main content container -->
-<div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
-    <h2 class="text-2xl font-bold text-center mb-6">Explore Recipes!</h2>
+    <!-- Main content container -->
+    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
+        <h2 class="text-2xl font-bold text-center mb-6">Explore Recipes!</h2>
 
-    <!-- Filter Dropdowns -->
-    <div class="flex justify-between mb-6">
-        <select class="w-1/4 p-2 border rounded hover:bg-green-100">
-            <option>Category</option>
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
-        </select>
-        <select class="w-1/4 p-2 border rounded hover:bg-green-100">
-            <option>Flavor</option>
-            <option>Savory</option>
-            <option>Salty</option>
-            <option>Sweet</option>
-        </select>
-        <select class="w-1/4 p-2 border rounded hover:bg-green-100">
-            <option>Difficulty</option>
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
-        </select>
-        <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100">
-            Update Search
-        </button>
+        <!-- Filter Dropdowns -->
+        <div class="flex justify-between mb-6">
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+                <option>Category</option>
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+            </select>
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+                <option>Flavor</option>
+                <option>Savory</option>
+                <option>Salty</option>
+                <option>Sweet</option>
+            </select>
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+                <option>Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+            </select>
+            <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100">
+                Update Search
+            </button>
+        </div>
+
+        <!-- Scrollable Recipe Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-[300px] overflow-y-auto">
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 1</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 2</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 3</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 4</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 5</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 6</p>
+            </div>
+            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                <p class="text-gray-600">Recipe 7</p>
+            </div>
+        </div>
     </div>
 
-    <!-- Scrollable Recipe Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-[300px] overflow-y-auto">
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 1</p>
+     <!-- Footer with Social Media Links(Fake) -->
+    <footer class="bg-green-400 rounded-lg shadow-lg m-4 fixed bottom-0 w-full">
+        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="../static/img/logo.png" class="h-12" alt="logo" />
+                <span class="text-sm text-white font-bold">DishDash™</span>
+            </div>
+            <!-- Social Media Icons -->
+            <div class="flex space-x-4">
+                <img src="../static/img/social_media_logos/facebook_logo.png" alt="Social 1" class="w-6 h-6">
+                <img src="../static/img/social_media_logos/instagram_logo.png" alt="Social 2" class="w-6 h-6">
+                <img src="../static/img/social_media_logos/x_logo.png" alt="Social 3" class="w-6 h-6">
+            </div>
         </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 2</p>
-        </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 3</p>
-        </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 4</p>
-        </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 5</p>
-        </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 6</p>
-        </div>
-        <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-            <p class="text-gray-600">Recipe 7</p>
-        </div>
-    </div>
-</div>
+    </footer>
 </body>
 </html>
