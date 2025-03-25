@@ -1,4 +1,10 @@
+# TODO:
+# Provide feedback to users rather than logging with jinja templates
+# Make visual changes to login and registration pages
+# Redo profile updates
+
 import os
+import re
 import logging
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -20,10 +26,8 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 app.config['UPLOAD_FOLDER'] = 'static/img/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 
-# Check required env variables
 if not app.config["MONGO_URI"]:
     logging.error("MONGO_URI is not set. Please check your .env file.")
 else:
@@ -96,6 +100,9 @@ def get_current_user_document():
         except Exception as e:
             logging.error(f"Invalid session user_id format: {e}")
     return None
+
+EMAIL_REGEX = re.compile(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', re.IGNORECASE)
+USERNAME_REGEX = re.compile(r'^[A-Za-z0-9_]+$')
 
 
 # -----------------------------
@@ -180,14 +187,34 @@ def recipes():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """ User registration - validate form inputs, check for existing usernames, hashing passwords, etc. """
+    """ Validate form inputs, check for existing usernames, hashing passwords, etc. """
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        email = request.form.get('email')
+        email = request.form.get('email').strip()
 
-        # Validate email format (validate email, invalid characters, password strength, etc.)
+        if not EMAIL_REGEX.fullmatch(email):
+            logging.info("Invalid email format.")
+            return redirect(url_for('register'))
+        
+        if not USERNAME_REGEX.fullmatch(username):
+            logging.info("Invalid username: Only letters, numbers, and underscores are allowed.")
+            return redirect(url_for('register'))
 
+        # password strength
+        password_no_whitespace = ''.join(password.split()) # remove all spaces
+        validation = [
+            (len(password_no_whitespace) >= 8, "Password must be at least 8 characters long."), # without whitespace
+            (re.search(r'[A-Z]', password_no_whitespace), "Password must contain at least one uppercase letter."),
+            (re.search(r'\d', password_no_whitespace), "Password must contain at least one number."),
+            (re.search(r'[^A-Za-z0-9]', password_no_whitespace), "Password must contain at least one special character.")
+        ]
+
+        for valid, msg in validation:
+            if not valid:
+                logging.info(msg)
+                return redirect(url_for('register'))
+            
         # Check if user already exists
         if users_collection.find_one({'username': username}):
             logging.info("User already exists!")
@@ -210,7 +237,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """ Authenticate users through email and password, flask-login manages the user session """
+    """ Authenticate users, flask-login manages the user session """
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         password = request.form.get('password')
@@ -235,7 +262,6 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    """ Remove session data and logout user """
     session.pop('user_id', None) 
     logout_user()
     return redirect(url_for('index'))
