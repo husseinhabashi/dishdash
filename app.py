@@ -195,6 +195,17 @@ def recipes():
 
 
 
+####               ####
+#                     #
+#      Favorites      #
+#                     #
+####               #### 
+@app.route('/favorites')
+def favorites():
+ return render_template('favorites.html')
+
+
+
 ####                ####
 #                      #
 #       REGISTER       #
