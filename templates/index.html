@@ -7,7 +7,7 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-white-100">
+<body class="bg-white-100" flex flex-col min-h-screen>
     <!-- Navbar -->
     <nav class="bg-green-400 p-5">
         <div class="container mx-auto flex justify-between items-center">
@@ -21,16 +21,21 @@
             <div class="w-10"></div>  <!-- Placeholder to maintain spacing -->
             {% endif %}
 
+            <!-- Search Bar -->
+            <div class="relative px-4 w-full">
+                <input type="text" placeholder="Explore" class="w-full p-2 pl-10 text-gray-700 border border-gray-300 rounded-lg focus:outline-solid focus:ring-2 focus:ring-green-400">
+                <img src="{{ url_for('static', filename='img/search_icon.svg') }}" alt="Search" class="absolute inset-y-0 left-7 my-auto w-5 h-5">
+            </div>
+
             <!-- Navigation Links -->
-            <div class="flex space-x-6 ml-auto">
+            <div class="flex space-x-4 ml-auto">
                 {% if session['user_id'] %}
-                <a href="{{ url_for('logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105">Logout</a>
-                <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-600 hover:scale-105">Friends</a>
-                <a href="{{ url_for('recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105">Recipes</a>
-                <a href="#" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105">Favorites</a>
+                <a href="{{ url_for('logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
+                <a href="{{ url_for('recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
+                <a href="{{ url_for('favorites') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105">Login</a>
-                <a href="{{ url_for('register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105">Register</a>
+                <a href="{{ url_for('login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Login</a>
+                <a href="{{ url_for('register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -55,5 +60,21 @@
         
     </div>
 
+    <!-- Footer with Social Media Links(Fake) -->
+    <footer class="bg-green-400 rounded-lg shadow-lg m-4 fixed bottom-0 w-full">
+        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="../static/img/logo.png" class="h-12" alt="logo" />
+                <span class="text-sm text-white font-bold">DishDash™</span>
+            </div>
+        <!-- Social Media Icons -->
+            <div class="flex space-x-4">
+                <img src="../static/img/social_media_logos/facebook_logo.png" alt="Social 1" class="w-6 h-6">
+                <img src="../static/img/social_media_logos/instagram_logo.png" alt="Social 2" class="w-6 h-6">
+                <img src="../static/img/social_media_logos/x_logo.png" alt="Social 3" class="w-6 h-6">
+            </div>
+        </div>
+    </footer>
+  
 </body>
 </html>

@@ -185,6 +185,23 @@ def recipes():
     return render_template('recipes.html')
 
 
+
+####               ####
+#                     #
+#      Favorites      #
+#                     #
+####               #### 
+@app.route('/favorites')
+def favorites():
+ return render_template('favorites.html')
+
+
+
+####                ####
+#                      #
+#       REGISTER       #
+#                      #
+####                #### 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """ Validate form inputs, check for existing usernames, hashing passwords, etc. """
