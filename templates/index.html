@@ -11,10 +11,10 @@
     <!-- Navbar -->
     <nav class="bg-green-400 p-5">
         <div class="container mx-auto flex justify-between items-center">
-            
+
             {% if session['user_id'] %}
             <!-- Profile Picture -->
-            <a href="{{ url_for('profile') }}">
+            <a href="{{ url_for('profile.profile') }}">
                 <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile" class="w-10 h-10 rounded-full border-1 border-grey">
             </a>
             {% else %}
@@ -30,12 +30,12 @@
             <!-- Navigation Links -->
             <div class="flex space-x-4 ml-auto">
                 {% if session['user_id'] %}
-                <a href="{{ url_for('logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
-                <a href="{{ url_for('recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
-                <a href="{{ url_for('favorites') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
+                <a href="{{ url_for('auth.logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
+                <a href="{{ url_for('main.recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
+                <a href="{{ url_for('main.favorites') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Login</a>
-                <a href="{{ url_for('register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Register</a>
+                <a href="{{ url_for('auth.login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -57,7 +57,7 @@
             <img id="carousel" src="{{ url_for('static', filename='img/photo1.jpeg') }}" alt="Carousel Image" class="w-full h-full object-cover rounded-lg shadow-lg">
             <p class="mt-2 text-lg font-medium text-gray-700">[Recipe Name], <span class="text-gray-700 cursor-pointer">Check it out!</span></p>
         </div>
-        
+
     </div>
 
     <!-- Footer with Social Media Links(Fake) -->
@@ -75,6 +75,6 @@
             </div>
         </div>
     </footer>
-  
+
 </body>
 </html>

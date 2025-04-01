@@ -10,7 +10,7 @@
 <body class="bg-white flex justify-center items-center min-h-screen px-4">
 
     <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
-        <form action="{{ url_for('login') }}" method="POST">
+        <form action="{{ url_for('auth.login') }}" method="POST">
             <div class="text-2xl font-bold text-center mb-4">Log In</div>
 
             <div class="mt-4">
@@ -25,7 +25,7 @@
     
             <button type="submit" class="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Log In</button>
         </form>
-        <div class="mt-4 text-center">Don't have an account? <a class="underline" href="{{ url_for('register') }}">Sign up</a></div>
+        <div class="mt-4 text-center">Don't have an account? <a class="underline" href="{{ url_for('auth.register') }}">Sign up</a></div>
     </div>
 </body>
 
