@@ -15,13 +15,8 @@
    </a>
 
    <!-- Company Logo-->
-   <a class="absolute top-4 w-full flex justify-center pointer-events-none">
-     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Company Logo" class="w-30 h-30">
-   </a>
-
-   <!-- Plus square for adding recipes -->
-   <a href="#" class="absolute top-4 right-4">
-       <img src="{{ url_for('static', filename='img/plus-square.svg') }}" alt="Logo" class="w-12 h-12">
+   <a class="absolute top-2 w-full flex justify-center pointer-events-none">
+     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Company Logo" class="w-28 h-28">
    </a>
 
     <!-- Main content container -->
@@ -30,25 +25,25 @@
 
         <!-- Filter Dropdowns -->
         <div class="flex justify-between mb-6">
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
                 <option>Category</option>
                 <option>Breakfast</option>
                 <option>Lunch</option>
                 <option>Dinner</option>
             </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
                 <option>Flavor</option>
                 <option>Savory</option>
                 <option>Salty</option>
                 <option>Sweet</option>
             </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100">
+            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
                 <option>Difficulty</option>
                 <option>Easy</option>
                 <option>Medium</option>
                 <option>Hard</option>
             </select>
-            <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100">
+            <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100 m-1">
                 Update Search
             </button>
         </div>
@@ -80,7 +75,7 @@
     </div>
 
      <!-- Footer with Social Media Links(Fake) -->
-    <footer class="bg-green-400 rounded-lg shadow-lg m-4 fixed bottom-0 w-full">
+    <footer class="bg-green-400 rounded-lg shadow-lg fixed bottom-0 w-full">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
             <div class="flex items-center space-x-2">
                 <img src="../static/img/logo.png" class="h-12" alt="logo" />
