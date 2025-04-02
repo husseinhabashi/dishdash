@@ -2,15 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{{ recipe.title }} - Dish Dash</title>
+  <title>{{ recipe.name }} - Dish Dash</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 <body class="bg-gray-100 min-h-screen p-4">
   <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
-    <h1 class="text-3xl font-bold mb-4">{{ recipe.title }}</h1>
+    <img id="recipe-img" src="{{ url_for('static', filename=recipe.image) }}" alt="Recipe Image" class="w-24 h-24 mx-auto border-2 border-gray-300">
+    <h1 class="text-3xl font-bold mb-4">{{ recipe.name }}</h1>
     <p class="mb-4">{{ recipe.description }}</p>
     <p class="mb-4"><strong>Category:</strong> {{ recipe.category }}</p>
-    <a href="{{ url_for('recipes.list_recipes') }}" class="text-green-500 underline">Back to recipes</a>
+    <p class="mb-4"><strong>Flavor:</strong> {{ recipe.flavor }}</p>
+    <p class="mb-4"><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
+    <a href="{{ url_for('main.recipes') }}" class="text-green-500 underline">Back to recipes</a>
   </div>
 </body>
 </html>

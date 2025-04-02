@@ -63,27 +63,12 @@
 
         <!-- Scrollable Recipe Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-[300px] overflow-y-auto">
+            {% for recipe in recipes %}
             <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 1</p>
+                <p class="text-gray-600"><a href={{url_for('main.recipe_from_id',recipe_id=recipe.recipeID)}}>{{recipe.name}}</a></p>
             </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 2</p>
-            </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 3</p>
-            </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 4</p>
-            </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 5</p>
-            </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 6</p>
-            </div>
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600">Recipe 7</p>
-            </div>
+            {% endfor %}
+
         </div>
     </div>
 
