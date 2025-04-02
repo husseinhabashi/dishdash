@@ -13,6 +13,14 @@
     <p class="mb-4"><strong>Category:</strong> {{ recipe.category }}</p>
     <p class="mb-4"><strong>Flavor:</strong> {{ recipe.flavor }}</p>
     <p class="mb-4"><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
+    {% if favorite_info %}
+    {% if favorite_info == "add" %}
+    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="text-green-500 underline">Add Favorite</a>
+    {% else %}
+    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="text-green-500 underline">Remove Favorite</a>
+    
+    {% endif %}
+    {% endif %}
     <a href="{{ url_for('main.recipes') }}" class="text-green-500 underline">Back to recipes</a>
   </div>
 </body>

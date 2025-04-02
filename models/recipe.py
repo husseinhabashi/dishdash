@@ -17,12 +17,7 @@ def save_recipe(db, recipe):
 
 def test_recipes_stuff(db):
     user = db.users.find_one({'email': 'daniel@email.com'})
-    add_favorite(db, user['_id'],"test")
-    print(db.users.update_one({'email':'daniel@email.com'},
-                             {
-                                 '$pull':{"favorites":"dd"}
-                             }
-                             ))
+    add_favorite(db, user['_id'],ObjectId("67dc6549376b70409e358a79"))
 
 def search_recipes(db, name, category, flavor, difficulty):
 
@@ -54,7 +49,7 @@ def remove_favorite(db, userid, recipeid):
     
     return db.users.update_one({'_id':userid},
                              {
-                                 '$addToSet':{"favorites":recipeid}
+                                 '$pull':{"favorites":recipeid}
                              }
                              )
 
@@ -84,7 +79,7 @@ class Recipe:
         self.recipeID = ObjectId()
         pass
     def __init__(self, recipe_cursor):
-        self.recipeID = recipe_cursor['_id']
+        self.recipeID = ObjectId(recipe_cursor['_id'])
         self.ownerID = recipe_cursor['owner']
         self.name = recipe_cursor['name']
         self.image = recipe_cursor['image']
