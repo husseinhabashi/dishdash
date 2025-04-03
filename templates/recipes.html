@@ -38,20 +38,29 @@
 
         <!-- Filter Dropdowns -->
         <div class="flex justify-between mb-6">
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Category</option>
+            <select id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 text-black">
+                <option value="" disabled selected hidden>Category</option>
                 <option>Breakfast</option>
                 <option>Lunch</option>
                 <option>Dinner</option>
+                <option>Dessert</option>
             </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Flavor</option>
+            <select id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 text-black">
+                <option value="" disabled selected hidden>Flavor</option>
                 <option>Savory</option>
                 <option>Salty</option>
                 <option>Sweet</option>
+                <option>Spicy</option>
             </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Difficulty</option>
+            <select id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 text-black">
+                <option value="" disabled selected hidden>Dietary Restriction</option>
+                <option>Vegetarian</option>
+                <option>Vegan</option>
+                <option>Keto</option>
+                <option>Gluten-Free</option>
+            </select>
+            <select id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 text-black">
+                <option value="" disabled selected hidden>Difficulty</option>
                 <option>Easy</option>
                 <option>Medium</option>
                 <option>Hard</option>
@@ -59,6 +68,23 @@
             <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100 m-1">
                 Update Search
             </button>
+
+            <script>
+                document.querySelectorAll("select").forEach(select => {
+                    let lastSelected = null;
+            
+                    select.addEventListener("change", function () {
+                        if (this.value === lastSelected) {
+                            this.selectedIndex = 0; // Reset to default
+                            this.classList.add("text-black");
+                        } else {
+                            this.classList.remove("text-black");
+                            this.classList.add("text-green-600");
+                            lastSelected = this.value;
+                        }
+                    });
+                });
+            </script>
         </div>
 
         <!-- Scrollable Recipe Grid -->
