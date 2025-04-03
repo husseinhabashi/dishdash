@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, curren
 from flask_login import login_required
 from werkzeug.utils import secure_filename
 
-from utils.helpers import allowed_file, get_current_user_document
+from dishdash.utils.helpers import allowed_file, get_current_user_document
 
 profile_bp = Blueprint('profile', __name__)
 

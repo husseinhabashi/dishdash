@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
-from utils.helpers import get_current_user_document
-import models.recipe as recipe
+from dishdash.utils.helpers import get_current_user_document
+import dishdash.models.recipe as recipe
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
