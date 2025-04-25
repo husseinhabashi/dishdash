@@ -7,9 +7,9 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-white-100" flex flex-col min-h-screen>
+<body class="bg-stone-100" flex flex-col min-h-screen>
     <!-- Navbar -->
-    <nav class="bg-green-400 p-5">
+    <nav class="bg-green-300 p-5 border-b border-1 border-black">
         <div class="container mx-auto flex justify-between items-center">
 
             {% if session['user_id'] %}
@@ -30,9 +30,9 @@
             <!-- Navigation Links -->
             <div class="flex space-x-4 ml-auto">
                 {% if session['user_id'] %}
-                <a href="{{ url_for('auth.logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
-                <a href="{{ url_for('main.recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
-                <a href="{{ url_for('main.favorites') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
+                <a href="{{ url_for('auth.logout') }}" class="bg-green-400  border-b border-1 border-stone-400 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
+                <a href="{{ url_for('main.recipes') }}" class="bg-green-400  border-b border-1 border-stone-400 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
+                <a href="{{ url_for('main.favorites') }}" class="bg-green-400 border-b border-1 border-stone-400 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
                 {% else %}
                 <a href="{{ url_for('auth.login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Login</a>
                 <a href="{{ url_for('auth.register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Register</a>
@@ -49,7 +49,7 @@
             <h1 class="text-3xl font-bold text-gray-800">Welcome back, {{ username }}!</h1>
             {% endif %}
             <h1 class="text-xl font-bold text-green-500">Let's eat!</h1>
-            <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo" class="mt-2 w-40 sm:w-50 md:w-60 mx-auto">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="mt-2 w-40 sm:w-50 md:w-60 mx-auto">
         </div>
 
         <!-- Image Carousel with Caption -->
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Footer with Social Media Links(Fake) -->
-    <footer class="bg-green-400 rounded-lg shadow-lg fixed bottom-0 w-full">
+    <footer class="bg-green-300 rounded-sm shadow-lg fixed bottom-0 w-full border-b border-1 border-stone-400">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
             <div class="flex items-center space-x-2">
                 <img src="../static/img/logo.png" class="h-12" alt="logo" />

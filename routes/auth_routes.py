@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from flask_login import login_user, logout_user
 import bcrypt
 
-from dishdash.models.user import User
-from dishdash.utils.helpers import EMAIL_REGEX, USERNAME_REGEX
+from models.user import User
+from utils.helpers import EMAIL_REGEX, USERNAME_REGEX
 
 auth_bp = Blueprint('auth', __name__)
 

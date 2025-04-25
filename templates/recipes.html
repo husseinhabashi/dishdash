@@ -7,7 +7,7 @@
    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon">
    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-gray-100 h-screen flex justify-center items-center relative">
+<body class="bg-stone-200 h-screen flex justify-center items-center relative">
   
    <!-- Back arrow linking to home page -->
    <a href="{{ url_for('main.index') }}" class="absolute top-4 left-4">
@@ -29,7 +29,7 @@
    </a>
 
     <!-- Main content container -->
-    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 border-b border-1 border-black">
         <!-- Search Bar -->
         <div class="w-full relative mb-4">
             <input type="text" placeholder="Find Recipes" class="w-full p-2 pl-10 text-stone-600 border border-stone-400 rounded-lg focus:outline-none focus:ring-2 focus:border-green-600">
@@ -99,7 +99,7 @@
     </div>
 
      <!-- Footer with Social Media Links(Fake) -->
-    <footer class="bg-green-400 rounded-lg shadow-lg fixed bottom-0 w-full">
+    <footer class="bg-green-300 rounded-sm shadow-lg fixed bottom-0 w-full border-b border-1 border-black">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
             <div class="flex items-center space-x-2">
                 <img src="../static/img/logo.png" class="h-12" alt="logo" />
