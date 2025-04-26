@@ -1,4 +1,5 @@
 from bson.objectid import ObjectId
+import pymongo
 def save_recipe(db, recipe):
 
     return db.recipes.update_one({'_id': recipe.recipeID},
@@ -19,9 +20,16 @@ def test_recipes_stuff(db):
     user = db.users.find_one({'email': 'daniel@email.com'})
     add_favorite(db, user['_id'],ObjectId("67dc6549376b70409e358a79"))
 
-def search_recipes(db, name, category, flavor, difficulty):
+def get_search_terms_from_post(request):
+    if not request.method == "POST":
+        raise TypeError("Request must be a post request")
+    return request.form.get("category"), request.form.get("flavor"), request.form.get("difficulty"), request.form.get("name")
 
-    pass
+def search_recipes(db, name, category, flavor, difficulty):
+    # create a text index for searching by name if one doesnt already exist
+    db.recipes.create_index([('name', pymongo.TEXT)], name='search_index', default_language='english')
+    return [Recipe(x) for x in db.recipes.find({'category':category,"flavor":flavor,"difficulty":difficulty,"$text":{"$search":name}})]
+
     
 def get_favorites(db, userid):
     user = db.users.find_one({'_id': userid})
