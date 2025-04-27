@@ -7,5 +7,7 @@ __pycache__/
 *.pyo
 *.pyd
 
-.DS_Store  # macOS
-Thumbs.db  # Windows
+.DS_Store
+Thumbs.db
+*.pyc
+utils/__pycache__/__init__.cpython-312.pyc

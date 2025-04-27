@@ -3,11 +3,12 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Dish Dash</title>
+   <title>Dish Dash - Favorites</title>
    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon">
    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 </head>
-<body class="bg-gray-100 h-screen flex justify-center items-center relative">
+<body class="bg-gray-100 flex flex-col min-h-screen">
   
    <!-- Back arrow linking to home page -->
    <a href="{{ url_for('main.index') }}" class="absolute top-4 left-4">
@@ -19,59 +20,129 @@
      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Company Logo" class="w-28 h-28">
    </a>
 
-    <!-- Main content container -->
-    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
-        <h2 class="text-2xl font-bold text-center mb-6">Check out your favorites!</h2>
+   <main class="flex-grow flex flex-col justify-center items-center w-full px-48">
+        <!-- Main content container -->
+        <div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
+            <h2 class="text-2xl font-bold text-center mb-6">Check out your favorites!</h2>
 
-        <!-- Filter Dropdowns -->
-        <div class="flex justify-between mb-6">
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Category</option>
-                <option>Breakfast</option>
-                <option>Lunch</option>
-                <option>Dinner</option>
-            </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Flavor</option>
-                <option>Savory</option>
-                <option>Salty</option>
-                <option>Sweet</option>
-            </select>
-            <select class="w-1/4 p-2 border rounded hover:bg-green-100 m-1">
-                <option>Difficulty</option>
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Hard</option>
-            </select>
-            <button class="w-1/4 p-2 border rounded font-bold hover:bg-green-100 m-1">
-                Update Search
-            </button>
-        </div>
-
-        <!-- Scrollable Recipe Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-[300px] overflow-y-auto">
-            {% for recipe in recipes %}
-            <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
-                <p class="text-gray-600"><a href={{url_for('main.recipe_from_id',recipe_id=recipe.recipeID)}}>{{recipe.name}}</a></p>
+            <!-- Filter Dropdowns -->
+            <div class="flex justify-between mb-6">
+                <select name="category" id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 {% if selected_category %}text-green-600{% else %}text-black{% endif %}">
+                    <option value="" {% if not selected_category %}selected{% endif %}>Category</option>
+                    <option value="Breakfast" {% if selected_category == 'Breakfast' %}selected{% endif %}>Breakfast</option>
+                    <option value="Lunch" {% if selected_category == 'Lunch' %}selected{% endif %}>Lunch</option>
+                    <option value="Dinner" {% if selected_category == 'Dinner' %}selected{% endif %}>Dinner</option>
+                    <option value="Dessert" {% if selected_category == 'Dessert' %}selected{% endif %}>Dessert</option>
+                </select>
+                <select name="flavor" id="flavorSelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 {% if selected_flavor %}text-green-600{% else %}text-black{% endif %}">
+                    <option value="" {% if not selected_flavor %}selected{% endif %}>Flavor</option>
+                    <option value="Savory" {% if selected_flavor == 'Savory' %}selected{% endif %}>Savory</option>
+                    <option value="Salty" {% if selected_flavor == 'Salty' %}selected{% endif %}>Salty</option>
+                    <option value="Sweet" {% if selected_flavor == 'Sweet' %}selected{% endif %}>Sweet</option>
+                    <option value="Spicy" {% if selected_flavor == 'Spicy' %}selected{% endif %}>Spicy</option>
+                </select>
+                <select name="dietary" id="dietarySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 {% if selected_dietary %}text-green-600{% else %}text-black{% endif %}">
+                    <option value="" {% if not selected_dietary %}selected{% endif %}>Dietary Restriction</option>
+                    <option value="Vegetarian" {% if selected_dietary == 'Vegetarian' %}selected{% endif %}>Vegetarian</option>
+                    <option value="Vegan" {% if selected_dietary == 'Vegan' %}selected{% endif %}>Vegan</option>
+                    <option value="Keto" {% if selected_dietary == 'Keto' %}selected{% endif %}>Keto</option>
+                    <option value="Gluten-Free" {% if selected_dietary == 'Gluten-Free' %}selected{% endif %}>Gluten-Free</option>
+                </select>
+                <select name="difficulty" id="difficultySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 {% if selected_difficulty %}text-green-600{% else %}text-black{% endif %}">
+                    <option value="" {% if not selected_difficulty %}selected{% endif %}>Difficulty</option>
+                    <option value="Easy" {% if selected_difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+                    <option value="Medium" {% if selected_difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="Hard" {% if selected_difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+                </select>
+                <button type="submit" class="w-1/4 p-2 border rounded font-bold hover:bg-green-100 m-1">
+                    Update Search
+                </button>
             </div>
-            {% endfor %}
-        </div>
-    </div>
 
-     <!-- Footer with Social Media Links(Fake) -->
-    <footer class="bg-green-400 rounded-lg shadow-lg fixed bottom-0 w-full">
-        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-            <div class="flex items-center space-x-2">
-                <img src="../static/img/logo.png" class="h-12" alt="logo" />
-                <span class="text-sm text-white font-bold">DishDash™</span>
+            <!-- Scrollable Recipe Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-[300px] overflow-y-auto">
+                {% for recipe in recipes %}
+                <div class="bg-gray-200 w-full h-32 rounded-lg flex items-center justify-center">
+                    <p class="text-gray-600"><a href={{url_for('main.recipe_from_id',recipe_id=recipe.recipeID)}}>{{recipe.name}}</a></p>
+                </div>
+                {% endfor %}
             </div>
-            <!-- Social Media Icons -->
-            <div class="flex space-x-4">
-                <img src="../static/img/social_media_logos/facebook_logo.png" alt="Social 1" class="w-6 h-6">
-                <img src="../static/img/social_media_logos/instagram_logo.png" alt="Social 2" class="w-6 h-6">
-                <img src="../static/img/social_media_logos/x_logo.png" alt="Social 3" class="w-6 h-6">
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-green-500 text-white">
+        <div class="container mx-auto py-8 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="{{ url_for('static', filename='img/logo.jpeg') }}" class="h-10 w-10 rounded-full" alt="logo" />
+                        <span class="text-xl font-bold">Dish Dash</span>
+                    </div>
+                    <p class="text-white mb-4">Browse, save, and share delicious recipes from all over the world.</p>
+                    <div class="flex space-x-4">
+                        <a href="" class="text-white hover:text-white transition-colors">
+                            <i data-feather="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="" class="text-white hover:text-white transition-colors">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="" class="text-white hover:text-white transition-colors flex items-center justify-center w-5 h-5">
+                            <span class="text-xl leading-none pb-0.5">𝕏</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{{ url_for('main.recipes') }}" class="text-white hover:text-white transition-colors">Recipes</a></li>
+                        <!-- no functionality-->
+                        <li><a href="#" class="text-white hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- no functionality-->
+                    <h3 class="text-lg font-semibold">Subscribe</h3>
+                    <p class="text-white mb-2">Get the latest recipes and tips delivered to your inbox.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg bg-white focus:outline-none text-gray-800 w-full">
+                        <button type="submit" class="bg-green-800 px-4 py-2 rounded-r-lg hover:bg-green-900 transition-colors">
+                            <i data-feather="send" class="w-5 h-5"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-green-400 mt-8 pt-8 text-center text-green-100">
+                <p>&copy; 2025 Dish Dash.</p>
             </div>
         </div>
     </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            
+            // apply styling for selected filter
+            document.querySelectorAll("select").forEach(select => {
+                if (select.value) {
+                    select.classList.remove("text-black");
+                    select.classList.add("text-green-600");
+                }
+                
+                select.addEventListener("change", function() {
+                    if (this.value) {
+                        this.classList.remove("text-black");
+                        this.classList.add("text-green-600");
+                    } else {
+                        this.classList.remove("text-green-600");
+                        this.classList.add("text-black");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

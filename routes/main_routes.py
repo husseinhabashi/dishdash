@@ -8,12 +8,34 @@ def index():
     user = get_current_user_document(current_app.users_collection)
     username = user['username'] if user else None
     profile_pic = user.get('profile_picture', 'default_picture.jpg') if user else 'default_picture.jpg'
-    return render_template('index.html', username=username, profile_pic=f'img/uploads/{profile_pic}')
+
+    all_recipes = recipe.get_recipes(current_app.db)
+
+
+    # Get featured recipes for the home page
+    featured_recipes = all_recipes[:3] if all_recipes else []
+    
+    # Get recipe of the day for the home page
+    recipe_of_the_day = None
+    if featured_recipes:
+        recipe_of_the_day = featured_recipes[0]  # For now, just use the first recipe
+    return render_template('index.html', username=username, profile_pic=f'img/uploads/{profile_pic}', featured_recipes=featured_recipes, recipe_of_the_day=recipe_of_the_day)
 
 @main_bp.route('/recipes')
 def recipes():
+    category = request.args.get('category', '')
+    flavor = request.args.get('flavor', '')
+    dietary = request.args.get('dietary', '')
+    difficulty = request.args.get('difficulty', '')
+
+    # Get recipes with filters
+    filtered_recipes = recipe.search_recipes(current_app.db, name='', category=category, flavor=flavor, difficulty=difficulty) if (category or flavor or difficulty) else recipe.get_recipes(current_app.db)
     
-    return render_template('recipes.html',recipes = recipe.get_recipes(current_app.db))
+    # If search_recipes returns None, fall back to all recipes
+    if filtered_recipes is None:
+        filtered_recipes = recipe.get_recipes(current_app.db)
+    
+    return render_template('recipes.html', recipes=filtered_recipes, selected_category=category, selected_flavor=flavor, selected_dietary=dietary, selected_difficulty=difficulty)
 
 @main_bp.route("/add_recipe")
 def add_recipe():

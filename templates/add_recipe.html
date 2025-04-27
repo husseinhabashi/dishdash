@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add Recipe - Dish Dash</title>
+  <title>Dish Dash - Add Recipe</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+<body class="bg-stone-200 flex justify-center items-center min-h-screen">
+  <!-- Back arrow linking to home page -->
+  <a href="{{ url_for('main.recipes') }}" class="absolute top-4 left-4">
+      <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
+  </a>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md border-b border-1 border-black">
     <h2 class="text-2xl font-bold mb-4 text-center">Add New Recipe</h2>
     <form method="POST">
       <div class="mb-4">
@@ -23,6 +27,7 @@
           <option value="Breakfast">Breakfast</option>
           <option value="Lunch">Lunch</option>
           <option value="Dinner">Dinner</option>
+          <option value="Dessert">Dessert</option>
         </select>
       </div>
       <div class="mb-4">
@@ -31,6 +36,7 @@
           <option value="Savory">Savory</option>
           <option value="Salty">Salty</option>
           <option value="Sweet">Sweet</option>
+          <option value="Spicy">Spicy</option>
         </select>
       </div>
       <div class="mb-4">
@@ -39,6 +45,15 @@
           <option value="Easy">Easy</option>
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Dietary Restriction:</label>
+        <select name="category" class="w-full p-2 border rounded">
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Vegan">Vegan</option>
+          <option value="Keto">Keto</option>
+          <option value="Gluten-Free">Gluten Free</option>
         </select>
       </div>
       <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">

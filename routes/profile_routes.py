@@ -24,10 +24,20 @@ def profile():
             file = request.files.get("profile-pic")
             if file and allowed_file(file.filename, current_app.config["ALLOWED_EXTENSIONS"]):
                 ext = file.filename.rsplit('.', 1)[1].lower()
-                new_filename = f"{user['username']}.{ext}"
+                new_filename = secure_filename(f"{user['username']}.{ext}")
                 file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], new_filename)
-                file.save(file_path)
-                users_collection.update_one({'_id': user['_id']}, {'$set': {'profile_picture': new_filename}})
+
+                try:
+                    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                    file.save(file_path)
+
+                    users_collection.update_one(
+                        {'_id': user['_id']},
+                        {'$set': {'profile_picture': new_filename}}
+                    )
+                except Exception as e:
+                    print("profile_routes error: ", e)
+
             return redirect(url_for('profile.profile'))
 
         elif action == "save_profile":

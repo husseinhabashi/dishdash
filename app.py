@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_login import LoginManager
-from config import Config
-from routes import register_routes
-from models.user import User
+from .config import Config
+from .routes import register_routes
+from .models.user import User
 
 # -------------------------
 # App Initialization

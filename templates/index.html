@@ -3,78 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dish Dash</title>
+    <title>Dish Dash - Home</title>
     <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 </head>
-<body class="bg-white-100" flex flex-col min-h-screen>
+<body class="bg-gray-50 flex flex-col min-h-screen">
     <!-- Navbar -->
-    <nav class="bg-green-400 p-5">
+    <nav class="bg-green-500 p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-
-            {% if session['user_id'] %}
-            <!-- Profile Picture -->
-            <a href="{{ url_for('profile.profile') }}">
-                <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile" class="w-10 h-10 rounded-full border-1 border-grey">
+            <!-- Logo -->
+            <a href="{{ url_for('main.index') }}" class="flex items-center space-x-2">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Dish Dash" class="w-10 h-10 rounded-full">
+                <span class="text-white font-bold text-xl sm:block">Dish Dash</span>
             </a>
-            {% else %}
-            <div class="w-10"></div>  <!-- Placeholder to maintain spacing -->
-            {% endif %}
 
             <!-- Search Bar -->
-            <div class="relative px-4 w-full">
-                <input type="text" placeholder="Find Recipes" class="w-full p-2 pl-10 text-stone-600 border border-stone-400 rounded-lg focus:outline-none focus:ring-2 focus:border-green-600">
-                <img src="{{ url_for('static', filename='img/search_icon.svg') }}" alt="Search" class="absolute inset-y-0 left-7 my-auto w-5 h-5">
+            <div class="relative px-4 w-full max-w-lg mx-4">
+                <input type="text" placeholder="Search for recipes..." class="w-full p-2 pl-10 text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <i data-feather="search" class="absolute left-7 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
             </div>
 
             <!-- Navigation Links -->
-            <div class="flex space-x-4 ml-auto">
+            <div class="flex items-center space-x-3">
                 {% if session['user_id'] %}
-                <a href="{{ url_for('auth.logout') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Logout</a>
-                <a href="{{ url_for('main.recipes') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Recipes</a>
-                <a href="{{ url_for('main.favorites') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Favorites</a>
+                <div class="relative group">
+                    <div class="flex items-center">
+                        <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white hover:border-green-200 transition-all">
+                    </div>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                        <div class="py-1">
+                            <a href="{{ url_for('profile.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                            <a href="{{ url_for('main.favorites') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Saved Recipes</a>
+                            <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('main.recipes') }}" class="bg-white text-green-500 px-4 py-2 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">Recipes</a>
                 {% else %}
-                <a href="{{ url_for('auth.login') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Login</a>
-                <a href="{{ url_for('auth.register') }}" class="bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:bg-white hover:text-green-800 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Register</a>
+                <a href="{{ url_for('auth.login') }}" class="text-white hover:text-green-100 px-4 transition-colors">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="bg-white text-green-500 px-4 py-2 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">Sign Up</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container mx-auto flex items-center justify-between mt-10 p-6">
-        <!-- Text Content -->
-        <div class="flex flex-col">
-            {% if username %}
-            <h1 class="text-3xl font-bold text-gray-800">Welcome back, {{ username }}!</h1>
-            {% endif %}
-            <h1 class="text-xl font-bold text-green-500">Let's eat!</h1>
-            <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo" class="mt-2 w-40 sm:w-50 md:w-60 mx-auto">
+    <div class="container mx-auto flex-grow py-8 px-4">
+        <!-- Welcome Section -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-12">
+            <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+                {% if username %}
+                <h1 class="text-4xl font-bold text-gray-800 mb-2">Welcome back, {{ username }}!</h1>
+                <p class="text-lg text-gray-600 mb-4">Discover your next favorite meal.</p>
+                {% else %}
+                <h1 class="text-4xl font-bold text-gray-800 mb-2">Discover Delicious Recipes</h1>
+                <p class="text-lg text-gray-600 mb-4">Browse, save, and share your favorite meals with Dish Dash.</p>
+                {% endif %}
+                <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <a href="{{ url_for('main.recipes') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md font-medium hover:bg-green-700 transition-colors">Browse Recipes</a>
+                    {% if not session['user_id'] %}
+                    <a href="{{ url_for('auth.register') }}" class="bg-white border border-green-500 text-green-600 px-6 py-3 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">Join Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Recipe of the Day Section -->
+            <div class="md:w-3/5 flex justify-center">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden w-full">
+                    <div class="relative">
+                        {% if recipe_of_the_day and recipe_of_the_day.image %}
+                        <img src="{{ url_for('static', filename=recipe_of_the_day.image) }}" alt="Recipe of the Day" class="w-full h-48 object-cover">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/placeholder-recipe.jpg') }}" alt="Recipe of the Day" class="w-full h-48 object-cover">
+                        {% endif %}
+                        <div class="absolute top-0 left-0 bg-green-600 text-white px-3 py-1.5 text-base rounded-br-lg font-medium">
+                            Recipe of the Day
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        {% if recipe_of_the_day %}
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ recipe_of_the_day.name }}</h3>
+                        <div class="flex items-center mb-3">
+                            <!-- no functionality-->
+                            <div class="flex text-yellow-400">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">({{ recipe_of_the_day.reviews|default(0) }} {% if recipe_of_the_day.reviews == 1 %}review{% else %}reviews{% endif %})</span>
+                        </div>
+                        <p class="text-base text-gray-600 mb-4 leading-snug">{{ recipe_of_the_day.description|default('A delicious recipe!') }}</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-6 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <i data-feather="tag" class="w-4 h-4 mr-2"></i>
+                                    <span>{{ recipe_of_the_day.difficulty|default('Easy') }}</span>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('main.recipe_from_id', recipe_id=recipe_of_the_day.recipeID) }}" class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium">View Recipe</a>
+                        </div>
+                        {% else %}
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Today's Featured Recipe</h3>
+                        <div class="flex items-center mb-3">
+                            <!-- no functionality-->
+                            <div class="flex text-yellow-400">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">(0 reviews)</span>
+                        </div>
+                        <p class="text-base text-gray-600 mb-4 leading-snug">New recipes coming soon.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-6 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <i data-feather="tag" class="w-4 h-4 mr-2"></i>
+                                    <span>Easy</span>
+                                </div>
+                            </div>
+                            <span class="bg-gray-300 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium">Coming Soon</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Image Carousel with Caption -->
-        <div class="w-96 h-64 relative text-center">
-            <img id="carousel" src="{{ url_for('static', filename='img/photo1.jpeg') }}" alt="Carousel Image" class="w-full h-full object-cover rounded-lg shadow-lg">
-            <p class="mt-2 text-lg font-medium text-gray-700">[Recipe Name], <span class="text-gray-700 cursor-pointer">Check it out!</span></p>
+        <!-- Featured Section -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i data-feather="award" class="mr-2 text-green-600"></i>
+                Featured Recipes
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for recipe in featured_recipes %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="relative">
+                        {% if recipe.image %}
+                        <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}" class="w-full h-48 object-cover">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/placeholder-recipe.jpg') }}" alt="{{ recipe.name }}" class="w-full h-48 object-cover">
+                        {% endif %}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">{{ recipe.name }}</h3>
+                        <div class="flex items-center mb-2">
+                            <!-- no functionality-->
+                            <div class="flex text-yellow-400">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-1">({{ recipe.reviews|default(0) }} {% if recipe.reviews == 1 %}review{% else %}reviews{% endif %})</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">{{ recipe.description|default('Delicious recipe!') }}</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i data-feather="tag" class="w-4 h-4 mr-1"></i>
+                                <span>{{ recipe.difficulty|default('Easy') }}</span>
+                            </div>
+                            <a href="{{ url_for('main.recipe_from_id', recipe_id=recipe.recipeID) }}" class="text-green-600 font-medium text-sm hover:text-green-700 transition-colors">View Recipe →</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Placeholder cards when there aren't enough recipes -->
+                {% for i in range(featured_recipes|length, 3) %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="relative">
+                        <img src="{{ url_for('static', filename='img/placeholder-recipe.jpg') }}" alt="Recipe Placeholder" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Coming Soon</h3>
+                        <div class="flex items-center mb-2">
+                            <!-- no functionality-->
+                            <div class="flex text-yellow-400">
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-1">(0 reviews)</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">New recipes coming soon</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i data-feather="tag" class="w-4 h-4 mr-1"></i>
+                                <span>-</span>
+                            </div>
+                            <span class="text-gray-400 font-medium text-sm">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
 
+        <!-- Categories Section -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i data-feather="grid" class="mr-2 text-green-600"></i>
+                Browse Categories
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                <a href="{{ url_for('main.recipes', category='Breakfast') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="coffee" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Breakfast</span>
+                </a>
+                <a href="{{ url_for('main.recipes', category='Lunch') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="sun" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Lunch</span>
+                </a>
+                <a href="{{ url_for('main.recipes', category='Dinner') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="moon" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Dinner</span>
+                </a>
+                <a href="{{ url_for('main.recipes', difficulty='Easy') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="fast-forward" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Easy</span>
+                </a>
+                <a href="{{ url_for('main.recipes', difficulty='Hard') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="clock" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">Hard</span>
+                </a>
+                <a href="{{ url_for('main.recipes') }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow">
+                    <div class="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                        <i data-feather="more-horizontal" class="text-green-600"></i>
+                    </div>
+                    <span class="font-medium text-gray-700">More</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer with Social Media Links(Fake) -->
-    <footer class="bg-green-400 rounded-lg shadow-lg fixed bottom-0 w-full">
-        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-            <div class="flex items-center space-x-2">
-                <img src="../static/img/logo.png" class="h-12" alt="logo" />
-                <span class="text-sm text-white font-bold">DishDash™</span>
+    <!-- Footer -->
+    <footer class="bg-green-500 text-white">
+        <div class="container mx-auto py-8 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="{{ url_for('static', filename='img/logo.jpeg') }}" class="h-10 w-10 rounded-full" alt="logo" />
+                        <span class="text-xl font-bold">Dish Dash</span>
+                    </div>
+                    <p class="text-white mb-4">Browse, save, and share delicious recipes from all over the world.</p>
+                    <div class="flex space-x-4">
+                        <a href="" class="text-white hover:text-white transition-colors">
+                            <i data-feather="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="" class="text-white hover:text-white transition-colors">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <!-- No x icon in feathericons, have to use a character -->
+                        <a href="" class="text-white hover:text-white transition-colors flex items-center justify-center w-5 h-5">
+                            <span class="text-xl leading-none pb-0.5">𝕏</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{{ url_for('main.recipes') }}" class="text-white hover:text-white transition-colors">Recipes</a></li>
+                        <li><a href="" class="text-white hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="" class="text-white hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Subscribe</h3>
+                    <p class="text-white mb-2">Get the latest recipes and tips delivered to your inbox.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg bg-white focus:outline-none text-gray-800 w-full">
+                        <button type="button" class="bg-green-800 px-4 py-2 rounded-r-lg hover:bg-green-900 transition-colors">
+                            <i data-feather="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-        <!-- Social Media Icons -->
-            <div class="flex space-x-4">
-                <img src="../static/img/social_media_logos/facebook_logo.png" alt="Social 1" class="w-6 h-6">
-                <img src="../static/img/social_media_logos/instagram_logo.png" alt="Social 2" class="w-6 h-6">
-                <img src="../static/img/social_media_logos/x_logo.png" alt="Social 3" class="w-6 h-6">
+            <div class="border-t border-green-400 mt-8 pt-8 text-center text-green-100">
+                <p>&copy; 2025 Dish Dash.</p>
             </div>
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+        });
+    </script>
 </body>
 </html>

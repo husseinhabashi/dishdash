@@ -6,7 +6,8 @@ load_dotenv()  # Loads values from .env file into environment variables
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     MONGO_URI = os.getenv("MONGO_URI")
-    UPLOAD_FOLDER = "static/img/uploads/"
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "img", "uploads")
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
     @staticmethod

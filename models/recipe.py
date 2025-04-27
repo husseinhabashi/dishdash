@@ -1,27 +1,51 @@
 from bson.objectid import ObjectId
-def save_recipe(db, recipe):
+import pymongo
 
+def save_recipe(db, recipe):
     return db.recipes.update_one({'_id': recipe.recipeID},
-                                        {"$set": 
-                                         {
-                                         
-                                          'owner': recipe.ownerID,
-                                          'name' : recipe.name,
-                                          'image' : recipe.image,
-                                          'category' : recipe.category,
-                                          'flavor' : recipe.flavor,
-                                          'difficulty' : recipe.difficulty,
-                                          'description' : recipe.description
-                                          }
-                                         },upsert=True)
+                                 {"$set": 
+                                  {
+                                      'owner': recipe.ownerID,
+                                      'name': recipe.name,
+                                      'image': recipe.image,
+                                      'category': recipe.category,
+                                      'flavor': recipe.flavor,
+                                      'difficulty': recipe.difficulty,
+                                      'description': recipe.description
+                                  }
+                                 },upsert=True)
 
 def test_recipes_stuff(db):
     user = db.users.find_one({'email': 'daniel@email.com'})
     add_favorite(db, user['_id'],ObjectId("67dc6549376b70409e358a79"))
 
-def search_recipes(db, name, category, flavor, difficulty):
+def get_search_terms_from_post(request):
+    if not request.method == "POST":
+        raise TypeError("Request must be a post request")
+    return request.form.get("category"), request.form.get("flavor"), request.form.get("difficulty"), request.form.get("name")
 
-    pass
+def search_recipes(db, name='', category='', flavor='', difficulty='', use_text_search=False):
+    query = {}
+    
+    if name:
+        if use_text_search:
+            if 'search_index' not in [idx['name'] for idx in db.recipes.list_indexes()]:
+                db.recipes.create_index([('name', pymongo.TEXT)], name='search_index', default_language='english')
+            query['$text'] = {'$search': name}
+        else:
+            # Case-insensitive partial name search (more flexible)
+            query['name'] = {'$regex': name, '$options': 'i'}
+    
+    if category:
+        query['category'] = category
+        
+    if flavor:
+        query['flavor'] = flavor
+        
+    if difficulty:
+        query['difficulty'] = difficulty
+    
+    return [Recipe(x) for x in db.recipes.find(query)]
     
 def get_favorites(db, userid):
     user = db.users.find_one({'_id': userid})
@@ -54,7 +78,6 @@ def remove_favorite(db, userid, recipeid):
                              )
 
 def get_recipes(db):
-    
     return [Recipe(x) for x in db.recipes.find()]
 
 def get_recipe(db, id):
