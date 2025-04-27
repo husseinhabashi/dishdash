@@ -9,5 +9,3 @@ __pycache__/
 
 .DS_Store
 Thumbs.db
-*.pyc
-utils/__pycache__/__init__.cpython-312.pyc
