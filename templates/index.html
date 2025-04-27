@@ -34,7 +34,7 @@
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                         <div class="py-1">
                             <a href="{{ url_for('profile.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
-                            <a href="{{ url_for('main.favorites') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Saved Recipes</a>
+                            <a href="{{ url_for('main.favorites') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Favorite Recipes</a>
                             <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 <p class="text-lg text-gray-600 mb-4">Discover your next favorite meal.</p>
                 {% else %}
                 <h1 class="text-4xl font-bold text-gray-800 mb-2">Discover Delicious Recipes</h1>
-                <p class="text-lg text-gray-600 mb-4">Browse, save, and share your favorite meals with Dish Dash.</p>
+                <p class="text-lg text-gray-600 mb-4">Browse, favorite, and share your favorite meals with Dish Dash.</p>
                 {% endif %}
                 <div class="flex flex-wrap gap-3 justify-center md:justify-start">
                     <a href="{{ url_for('main.recipes') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md font-medium hover:bg-green-700 transition-colors">Browse Recipes</a>
@@ -169,7 +169,7 @@
                                 <i data-feather="tag" class="w-4 h-4 mr-1"></i>
                                 <span>{{ recipe.difficulty|default('Easy') }}</span>
                             </div>
-                            <a href="{{ url_for('main.recipe_from_id', recipe_id=recipe.recipeID) }}" class="text-green-600 font-medium text-sm hover:text-green-700 transition-colors">View Recipe →</a>
+                            <a href="{{ url_for('main.recipe_from_id', recipe_id=recipe.recipeID) }}" class="text-green-600 font-medium text-sm hover:text-green-700 transition-colors">View Recipe</a>
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                         <img src="{{ url_for('static', filename='img/logo.jpeg') }}" class="h-10 w-10 rounded-full" alt="logo" />
                         <span class="text-xl font-bold">Dish Dash</span>
                     </div>
-                    <p class="text-white mb-4">Browse, save, and share delicious recipes from all over the world.</p>
+                    <p class="text-white mb-4">Browse, favorite, and share delicious recipes from all over the world.</p>
                     <div class="flex space-x-4">
                         <a href="" class="text-white hover:text-white transition-colors">
                             <i data-feather="facebook" class="w-5 h-5"></i>
