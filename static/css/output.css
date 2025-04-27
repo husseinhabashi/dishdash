@@ -6,8 +6,6 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-300: oklch(0.808 0.114 19.571);
-    --color-amber-200: oklch(0.924 0.12 95.746);
     --color-green-50: oklch(0.982 0.018 155.826);
     --color-green-100: oklch(0.962 0.044 156.743);
     --color-green-300: oklch(0.871 0.15 154.449);
@@ -16,11 +14,7 @@
     --color-green-600: oklch(0.627 0.194 149.214);
     --color-green-700: oklch(0.527 0.154 150.069);
     --color-green-800: oklch(0.448 0.119 151.328);
-    --color-emerald-50: oklch(0.979 0.021 166.113);
-    --color-emerald-300: oklch(0.845 0.143 164.978);
-    --color-slate-50: oklch(0.984 0.003 247.858);
     --color-gray-50: oklch(0.985 0.002 247.839);
-    --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-200: oklch(0.928 0.006 264.531);
     --color-gray-300: oklch(0.872 0.01 258.338);
     --color-gray-400: oklch(0.707 0.022 261.325);
@@ -30,7 +24,6 @@
     --color-gray-800: oklch(0.278 0.033 256.848);
     --color-stone-100: oklch(0.97 0.001 106.424);
     --color-stone-200: oklch(0.923 0.003 48.717);
-    --color-stone-300: oklch(0.869 0.005 56.366);
     --color-stone-400: oklch(0.709 0.01 56.259);
     --color-stone-600: oklch(0.444 0.011 73.639);
     --color-black: #000;
@@ -503,10 +496,6 @@
     border-style: var(--tw-border-style);
     border-width: 2px;
   }
-  .border-5 {
-    border-style: var(--tw-border-style);
-    border-width: 5px;
-  }
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
@@ -521,38 +510,14 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
-  .border-red-300 {
-    border-color: var(--color-red-300);
-  }
-  .border-stone-300 {
-    border-color: var(--color-stone-300);
-  }
   .border-stone-400 {
     border-color: var(--color-stone-400);
   }
   .border-transparent {
     border-color: transparent;
   }
-  .bg-amber-200 {
-    background-color: var(--color-amber-200);
-  }
-  .bg-emerald-50 {
-    background-color: var(--color-emerald-50);
-  }
-  .bg-emerald-300 {
-    background-color: var(--color-emerald-300);
-  }
-  .bg-gray-100 {
-    background-color: var(--color-gray-100);
-  }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
-  }
-  .bg-green-50 {
-    background-color: var(--color-green-50);
-  }
-  .bg-green-100 {
-    background-color: var(--color-green-100);
   }
   .bg-green-300 {
     background-color: var(--color-green-300);
@@ -566,23 +531,11 @@
   .bg-green-600 {
     background-color: var(--color-green-600);
   }
-  .bg-green-700 {
-    background-color: var(--color-green-700);
-  }
-  .bg-green-800 {
-    background-color: var(--color-green-800);
-  }
-  .bg-slate-50 {
-    background-color: var(--color-slate-50);
-  }
   .bg-stone-100 {
     background-color: var(--color-stone-100);
   }
   .bg-stone-200 {
     background-color: var(--color-stone-200);
-  }
-  .bg-stone-400 {
-    background-color: var(--color-stone-400);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -617,6 +570,9 @@
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
+  .px-1 {
+    padding-inline: calc(var(--spacing) * 1);
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
@@ -625,6 +581,9 @@
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
+  }
+  .px-10 {
+    padding-inline: calc(var(--spacing) * 10);
   }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);

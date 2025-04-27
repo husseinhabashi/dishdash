@@ -11,12 +11,12 @@
 <body class="bg-gradient-to-br from-green-50 to-green-100 flex justify-center items-center min-h-screen px-4 font-sans">
     <div class="max-w-md w-full">
         <div class="flex justify-center mb-6">
-            <div class="bg-white p-4 rounded-full shadow-md">
-                <div class="text-green-500 font-bold text-2xl">put logo here</div>
+            <div class="bg-white p-4 rounded-full shadow-md border-b border-1 border-black">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Company Logo" class="w-20 h-20">
             </div>
         </div>
         
-        <div class="bg-white p-8 rounded-xl shadow-lg">
+        <div class="bg-white p-8 rounded-xl shadow-lg border-b border-1 border-black">
             <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Welcome back</h1>
             
             <form action="{{ url_for('auth.login') }}" method="POST">

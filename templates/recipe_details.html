@@ -5,8 +5,8 @@
   <title>{{ recipe.name }} - Dish Dash</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-gray-100 min-h-screen p-4">
-  <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
+<body class="bg-stone-200 min-h-screen p-4">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto border-b border-1 border-black">
     <img id="recipe-img" src="{{ url_for('static', filename=recipe.image) }}" alt="Recipe Image" class="w-24 h-24 mx-auto border-2 border-gray-300">
     <h1 class="text-3xl font-bold mb-4">{{ recipe.name }}</h1>
     <p class="mb-4">{{ recipe.description }}</p>
@@ -15,13 +15,14 @@
     <p class="mb-4"><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
     {% if favorite_info %}
     {% if favorite_info == "add" %}
-    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="text-green-500 underline">Add Favorite</a>
+    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Add Favorite</a>
+    
     {% else %}
-    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="text-green-500 underline">Remove Favorite</a>
+    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Remove Favorite</a>
     
     {% endif %}
     {% endif %}
-    <a href="{{ url_for('main.recipes') }}" class="text-green-500 underline">Back to recipes</a>
+    <a href="{{ url_for('main.recipes') }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Back to recipes</a>
   </div>
 </body>
 </html>

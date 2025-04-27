@@ -7,14 +7,14 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-white flex justify-center items-center h-screen relative">
+<body class="bg-stone-200 flex justify-center items-center h-screen relative">
     
     <!-- Back arrow linking to home page -->
     <a href="{{ url_for('main.index') }}" class="absolute top-4 left-4">
         <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
     </a>
 
-    <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 border-b border-1 border-black">
         <h2 class="text-2xl font-bold text-center mb-4">Edit Profile</h2>
 
         <form action="{{ url_for('profile.profile') }}" method="POST" enctype="multipart/form-data">

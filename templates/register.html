@@ -7,9 +7,9 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.jpeg') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-white flex justify-center items-center min-h-screen px-4">
+<body class="bg-stone-200 flex justify-center items-center min-h-screen px-4">
 
-    <div class="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 border-b border-1 border-black">
         <form action="{{ url_for('auth.register') }}" method="POST">
             <div class="text-2xl font-bold text-center mb-4">Create an Account</div>
 
