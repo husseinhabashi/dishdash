@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dish Dash - Edit Recipe</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+<body class="bg-gradient-to-br from-green-50 to-green-100 flex justify-center items-center min-h-screen">
+  <!-- Back arrow linking to recipe details page -->
+  <a href="{{ url_for('main.recipe_from_id', recipe_id=recipe.recipeID) }}" class="absolute top-4 left-4">
+      <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
+  </a>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md border-b border-1 border-black">
+    <h2 class="text-2xl font-bold mb-4 text-center">Edit Recipe</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label class="block text-gray-700">Title:</label>
+        <input type="text" name="title" value="{{ recipe.name }}" class="w-full p-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Description:</label>
+        <textarea name="description" class="w-full p-2 border rounded" required>{{ recipe.description }}</textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Category:</label>
+        <select name="category" class="w-full p-2 border rounded">
+          <option value="Breakfast" {% if recipe.category == 'Breakfast' %}selected{% endif %}>Breakfast</option>
+          <option value="Lunch" {% if recipe.category == 'Lunch' %}selected{% endif %}>Lunch</option>
+          <option value="Dinner" {% if recipe.category == 'Dinner' %}selected{% endif %}>Dinner</option>
+          <option value="Dessert" {% if recipe.category == 'Dessert' %}selected{% endif %}>Dessert</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Flavor:</label>
+        <select name="flavor" class="w-full p-2 border rounded">
+          <option value="Savory" {% if recipe.flavor == 'Savory' %}selected{% endif %}>Savory</option>
+          <option value="Salty" {% if recipe.flavor == 'Salty' %}selected{% endif %}>Salty</option>
+          <option value="Sweet" {% if recipe.flavor == 'Sweet' %}selected{% endif %}>Sweet</option>
+          <option value="Spicy" {% if recipe.flavor == 'Spicy' %}selected{% endif %}>Spicy</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Difficulty:</label>
+        <select name="difficulty" class="w-full p-2 border rounded">
+          <option value="Easy" {% if recipe.difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+          <option value="Medium" {% if recipe.difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+          <option value="Hard" {% if recipe.difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Dietary Restriction:</label>
+        <select name="dietary" class="w-full p-2 border rounded">
+          <option value="None" {% if recipe.dietary == 'None' %}selected{% endif %}>None</option>
+          <option value="Vegetarian" {% if recipe.dietary == 'Vegetarian' %}selected{% endif %}>Vegetarian</option>
+          <option value="Vegan" {% if recipe.dietary == 'Vegan' %}selected{% endif %}>Vegan</option>
+          <option value="Keto" {% if recipe.dietary == 'Keto' %}selected{% endif %}>Keto</option>
+          <option value="Gluten-Free" {% if recipe.dietary == 'Gluten-Free' %}selected{% endif %}>Gluten Free</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <p class="text-gray-700 mb-2">Current Image:</p>
+        <img src="{{ url_for('static', filename=recipe.image) }}" alt="Current Recipe Image" class="w-full h-40 object-cover mb-2 rounded-lg">
+        <label class="block text-gray-700 mt-4">Change Image (optional):</label>
+        <input type="file" name="image" accept="image/*" class="text-sm bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition">
+      </div>
+      <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+        Save Changes
+      </button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,8 +21,13 @@
 
             <!-- Search Bar -->
             <div class="relative px-4 w-full max-w-lg mx-4">
-                <input type="text" placeholder="Search for recipes..." class="w-full p-2 pl-10 text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                <i data-feather="search" class="absolute left-7 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <form action="{{ url_for('main.recipes') }}" method="get">
+                    <input type="text" name="name" placeholder="Search for recipes..." class="w-full p-2 pl-10 text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <button type="submit" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-green-500">
+                        <i data-feather="search" class="w-5 h-5"></i>
+                    </button>
+                    <i data-feather="search" class="absolute left-7 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </form>
             </div>
 
             <!-- Navigation Links -->
@@ -34,12 +40,13 @@
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                         <div class="py-1">
                             <a href="{{ url_for('profile.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                            <a href="{{ url_for('main.my_recipes') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Recipes</a>
                             <a href="{{ url_for('main.favorites') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Favorite Recipes</a>
                             <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
                         </div>
                     </div>
                 </div>
-                <a href="{{ url_for('main.recipes') }}" class="bg-white text-green-500 px-4 py-2 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">Recipes</a>
+                <a href="{{ url_for('main.my_recipes') }}" class="bg-white text-green-500 px-4 py-2 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">My Recipes</a>
                 {% else %}
                 <a href="{{ url_for('auth.login') }}" class="text-white hover:text-green-100 px-4 transition-colors">Login</a>
                 <a href="{{ url_for('auth.register') }}" class="bg-white text-green-500 px-4 py-2 rounded-lg shadow-sm font-medium hover:bg-green-50 transition-colors">Sign Up</a>
@@ -87,15 +94,15 @@
                         <div class="flex items-center mb-3">
                             <!-- no functionality-->
                             <div class="flex text-yellow-400">
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
                                 <i data-feather="star" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-sm text-gray-500 ml-2">({{ recipe_of_the_day.reviews|default(0) }} {% if recipe_of_the_day.reviews == 1 %}review{% else %}reviews{% endif %})</span>
+                            <span class="text-sm text-gray-500 ml-2">({{ recipe_of_the_day.reviews|default(0) }} {% if recipe_of_the_day.reviews == 1 %}review{% else %}reviews{% endif %}, {{ recipe_of_the_day.favorites_count|default(0) }} {% if recipe_of_the_day.favorites_count == 1 %}favorite{% else %}favorites{% endif %})</span>
                         </div>
-                        <p class="text-base text-gray-600 mb-4 leading-snug">{{ recipe_of_the_day.description|default('A delicious recipe!') }}</p>
+                        <!-- <p class="text-base text-gray-600 mb-4 leading-snug">{{ recipe_of_the_day.description|default('A delicious recipe!')|truncate(100, True, '...') }}</p> -->
                         <div class="flex justify-between items-center">
                             <div class="flex space-x-6 text-sm text-gray-600">
                                 <div class="flex items-center">
@@ -110,13 +117,13 @@
                         <div class="flex items-center mb-3">
                             <!-- no functionality-->
                             <div class="flex text-yellow-400">
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
                                 <i data-feather="star" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-sm text-gray-500 ml-2">(0 reviews)</span>
+                            <span class="text-sm text-gray-500 ml-2">(0 reviews, 0 favorites)</span>
                         </div>
                         <p class="text-base text-gray-600 mb-4 leading-snug">New recipes coming soon.</p>
                         <div class="flex justify-between items-center">
@@ -155,15 +162,15 @@
                         <div class="flex items-center mb-2">
                             <!-- no functionality-->
                             <div class="flex text-yellow-400">
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
-                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
+                                <i data-feather="star" class="w-4 h-4"></i>
                                 <i data-feather="star" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-sm text-gray-500 ml-1">({{ recipe.reviews|default(0) }} {% if recipe.reviews == 1 %}review{% else %}reviews{% endif %})</span>
+                            <span class="text-sm text-gray-500 ml-1">({{ recipe.reviews|default(0) }} {% if recipe.reviews == 1 %}review{% else %}reviews{% endif %}, {{ recipe.favorites_count|default(0) }} {% if recipe.favorites_count == 1 %}favorite{% else %}favorites{% endif %})</span>
                         </div>
-                        <p class="text-sm text-gray-600 mb-3">{{ recipe.description|default('Delicious recipe!') }}</p>
+                        <!-- <p class="text-sm text-gray-600 mb-3">{{ recipe.description|default('Delicious recipe!') }}</p> -->
                         <div class="flex justify-between items-center">
                             <div class="flex items-center text-gray-500 text-sm">
                                 <i data-feather="tag" class="w-4 h-4 mr-1"></i>
@@ -192,9 +199,9 @@
                                 <i data-feather="star" class="w-4 h-4"></i>
                                 <i data-feather="star" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-sm text-gray-500 ml-1">(0 reviews)</span>
+                            <span class="text-sm text-gray-500 ml-1">(0 reviews, 0 favorites)</span>
                         </div>
-                        <p class="text-sm text-gray-600 mb-3">New recipes coming soon</p>
+                        <!-- <p class="text-sm text-gray-600 mb-3">New recipes coming soon</p> -->
                         <div class="flex justify-between items-center">
                             <div class="flex items-center text-gray-500 text-sm">
                                 <i data-feather="tag" class="w-4 h-4 mr-1"></i>

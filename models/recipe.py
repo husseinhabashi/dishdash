@@ -3,19 +3,19 @@ import pymongo
 
 def save_recipe(db, recipe):
     return db.recipes.update_one({'_id': recipe.recipeID},
-                                 {"$set": 
-                                  {
-                                      'owner': recipe.ownerID,
-                                      'name': recipe.name,
-                                      'image': recipe.image,
-                                      'category': recipe.category,
-                                      'dietary': recipe.dietary,
-                                      'flavor': recipe.flavor,
-                                      'difficulty': recipe.difficulty,
-                                      'description': recipe.description
-                                  }
-                                 },upsert=True)
-
+                               {"$set": 
+                                {
+                                    'owner': recipe.ownerID,
+                                    'name': recipe.name,
+                                    'image': recipe.image,
+                                    'category': recipe.category,
+                                    'dietary': recipe.dietary,
+                                    'flavor': recipe.flavor,
+                                    'difficulty': recipe.difficulty,
+                                    'description': recipe.description,
+                                    'favorites_count': recipe.favorites_count
+                                }
+                               },upsert=True)
 def test_recipes_stuff(db):
     user = db.users.find_one({'email': 'daniel@email.com'})
     add_favorite(db, user['_id'],ObjectId("67dc6549376b70409e358a79"))
@@ -58,22 +58,24 @@ def add_favorite(db, userid, recipeid):
     if not user:
         return
     
-    return db.users.update_one({'_id':userid},
-                             {
-                                 '$addToSet':{"favorites":recipeid}
-                             }
-                             )
+    # Add to users favorites
+    db.users.update_one({'_id':userid},
+                      {'$addToSet':{"favorites":recipeid}})
+    
+    # Increase recipe favorites count
+    db.recipes.update_one({'_id':recipeid},
+                        {'$inc':{'favorites_count': 1}})
 
 def remove_favorite(db, userid, recipeid):
     user = db.users.find_one({'_id': userid})
     if not user:
         return
     
-    return db.users.update_one({'_id':userid},
-                             {
-                                 '$pull':{"favorites":recipeid}
-                             }
-                             )
+    db.users.update_one({'_id':userid},
+                      {'$pull':{"favorites":recipeid}})
+    
+    db.recipes.update_one({'_id':recipeid},
+                        {'$inc':{'favorites_count': -1}})
 
 def get_recipes(db):
     return [Recipe(x) for x in db.recipes.find()]
@@ -83,6 +85,17 @@ def get_recipe(db, id):
     if recipe:
         return Recipe(recipe)
     
+def get_user_recipes(db, userid):
+    if not userid:
+        return []
+    return [Recipe(x) for x in db.recipes.find({'owner': userid})]
+
+def delete_recipe(db, recipe_id):
+    # string ID to objectId if needed
+    if isinstance(recipe_id, str):
+        recipe_id = ObjectId(recipe_id)
+
+    return db.recipes.delete_one({'_id': recipe_id})
 
 
 
@@ -96,6 +109,7 @@ class Recipe:
     flavor = None
     difficulty = None
     dietary = None
+    favorites_count = 0
     
 
     def __init__(self, recipe_cursor=None):
@@ -110,3 +124,4 @@ class Recipe:
         self.difficulty = recipe_cursor['difficulty']
         self.dietary = recipe_cursor.get('dietary',"None")
         self.description = recipe_cursor.get('description',"Default description!")
+        self.favorites_count = recipe_cursor.get('favorites_count', 0)

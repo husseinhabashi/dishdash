@@ -4,26 +4,75 @@
   <meta charset="UTF-8">
   <title>{{ recipe.name }} - Dish Dash</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 </head>
-<body class="bg-stone-200 min-h-screen p-4">
-  <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto border-b border-1 border-black">
-    <img id="recipe-img" src="{{ url_for('static', filename=recipe.image) }}" alt="Recipe Image" class="w-24 h-24 mx-auto border-2 border-gray-300">
-    <h1 class="text-3xl font-bold mb-4">{{ recipe.name }}</h1>
-    <p class="mb-4">{{ recipe.description }}</p>
-    <p class="mb-4"><strong>Category:</strong> {{ recipe.category }}</p>
-    <p class="mb-4"><strong>Flavor:</strong> {{ recipe.flavor }}</p>
-    <p class="mb-4"><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
-    <p class="mb-4"><strong>Dietary Restriction:</strong> {{ recipe.dietary }}</p>
+<body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p-6">
+  <a href="{{ url_for('main.recipes') }}" class="absolute top-4 left-4">
+    <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
+  </a>
 
-    {% if favorite_info %}
-    {% if favorite_info == "add" %}
-    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Add Favorite</a>
-    {% else %}
-    <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Remove Favorite</a>
+
+  <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto border border-gray-200">
+    <img id="recipe-img" src="{{ url_for('static', filename=recipe.image) }}" alt="Recipe Image" class="w-full h-72 object-cover mx-auto border-2 border-gray-200 rounded-lg mb-6 shadow-md">
     
-    {% endif %}
-    {% endif %}
-    <a href="{{ url_for('main.recipes') }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Back to recipes</a>
-  </div>
+    <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ recipe.name }}</h1>
+    <p class="mb-6 text-gray-600 italic" style="white-space: pre-wrap;">{{ recipe.description }}</p>
+    
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="p-3 bg-green-50 rounded-lg">
+        <p><span class="font-semibold text-gray-700">Category:</span> {{ recipe.category }}</p>
+      </div>
+      <div class="p-3 bg-green-50 rounded-lg">
+        <p><span class="font-semibold text-gray-700">Flavor:</span> {{ recipe.flavor }}</p>
+      </div>
+      <div class="p-3 bg-green-50 rounded-lg">
+        <p><span class="font-semibold text-gray-700">Difficulty:</span> {{ recipe.difficulty }}</p>
+      </div>
+      <div class="p-3 bg-green-50 rounded-lg">
+        <p><span class="font-semibold text-gray-700">Dietary Restriction:</span> {{ recipe.dietary }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-end mt-6">
+      {% if favorite_info %}
+        {% if favorite_info == "add" %}
+          <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+            <span class="flex items-center">
+              <i data-feather="heart" class="h-5 w-5 mr-1"></i>
+              Add Favorite
+            </span>
+          </a>
+        {% else %}
+          <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+            <span class="flex items-center">
+              <i data-feather="heart" class="h-4 w-4 mr-1 fill-current"></i>
+              Remove Favorite
+            </span>
+          </a>
+        {% endif %}
+      {% endif %}
+    
+      {% if session['user_id'] and recipe.ownerID and session['user_id']|string == recipe.ownerID|string %}
+      <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+        <span class="flex items-center">
+          <i data-feather="edit-2" class="h-4 w-4 mr-1"></i>
+           Edit
+        </span>
+      </a>
+
+        <a href="{{ url_for('main.delete_recipe', recipe_id=recipe.recipeID) }}" onclick="return confirm('Are you sure you want to delete this recipe?');" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+          <span class="flex items-center">
+            <i data-feather="trash-2" class="h-4 w-4 mr-1"></i>
+            Delete Recipe
+          </span>
+        </a>
+      {% endif %}
+    </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      feather.replace();
+    });
+  </script>
 </body>
 </html>

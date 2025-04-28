@@ -5,7 +5,7 @@
   <title>Dish Dash - Add Recipe</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
-<body class="bg-stone-200 flex justify-center items-center min-h-screen">
+<body class="bg-gradient-to-br from-green-50 to-green-100 flex justify-center items-center min-h-screen">
   <!-- Back arrow linking to home page -->
   <a href="{{ url_for('main.recipes') }}" class="absolute top-4 left-4">
       <img src="{{ url_for('static', filename='img/back-arrow.svg') }}" alt="Logo" class="w-12 h-12">
@@ -50,7 +50,7 @@
       <div class="mb-4">
         <label class="block text-gray-700">Dietary Restriction:</label>
         <select name="dietary" class="w-full p-2 border rounded">
-          <option value="Vegetarian">None</option>
+          <option value="None">None</option>
           <option value="Vegetarian">Vegetarian</option>
           <option value="Vegan">Vegan</option>
           <option value="Keto">Keto</option>
