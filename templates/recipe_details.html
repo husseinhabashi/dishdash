@@ -34,21 +34,23 @@
     </div>
 
     <div class="flex justify-between items-end mt-6">
-      {% if favorite_info %}
-        {% if favorite_info == "add" %}
-          <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
-            <span class="flex items-center">
-              <i data-feather="heart" class="h-5 w-5 mr-1"></i>
-              Add Favorite
-            </span>
-          </a>
-        {% else %}
-          <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
-            <span class="flex items-center">
-              <i data-feather="heart" class="h-4 w-4 mr-1 fill-current"></i>
-              Remove Favorite
-            </span>
-          </a>
+      {% if session['user_id'] %}
+        {% if favorite_info %}
+          {% if favorite_info == "add" %}
+            <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+              <span class="flex items-center">
+                <i data-feather="heart" class="h-5 w-5 mr-1"></i>
+                Add Favorite
+              </span>
+            </a>
+          {% else %}
+            <a href="{{ url_for('main.favorite_toggle', recipe_id=recipe.recipeID) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-md">
+              <span class="flex items-center">
+                <i data-feather="heart" class="h-4 w-4 mr-1 fill-current"></i>
+                Remove Favorite
+              </span>
+            </a>
+          {% endif %}
         {% endif %}
       {% endif %}
     
