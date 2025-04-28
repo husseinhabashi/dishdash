@@ -13,6 +13,8 @@
     <p class="mb-4"><strong>Category:</strong> {{ recipe.category }}</p>
     <p class="mb-4"><strong>Flavor:</strong> {{ recipe.flavor }}</p>
     <p class="mb-4"><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
+    <p class="mb-4"><strong>Dietary Restriction:</strong> {{ recipe.dietary }}</p>
+
     {% if favorite_info %}
     {% if favorite_info == "add" %}
     <a href="{{ url_for('main.favorite_toggle',recipe_id = recipe.recipeID) }}" class="bg-green-400 border-b border-1 border-black text-white px-1 py-1 rounded-lg transform transition-all hover:bg-white hover:text-green-700 hover:scale-105 focus:outline-solid focus:ring-2 focus:ring-green-400">Add Favorite</a>
