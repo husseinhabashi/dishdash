@@ -29,13 +29,15 @@
         <!-- Main content container -->
         <div class="bg-white p-6 rounded-lg shadow-lg w-11/12">
             <!-- Search Bar -->
-            <div class="w-full relative mb-4">
-                <input type="text" placeholder="Find Recipes" class="w-full p-2 pl-10 text-stone-600 border border-stone-400 rounded-lg focus:outline-none focus:ring-2 focus:border-green-600">
-                <img src="{{ url_for('static', filename='img/search_icon.svg') }}" alt="Search" class="absolute inset-y-0 left-4 my-auto w-5 h-5">
-            </div>
+
 
             <!-- Filter Dropdowns -->
             <form action="{{ url_for('main.recipes') }}" method="get" id="filter-form">
+                
+                <div class="w-full relative mb-4">
+                    <input name="name" type="text" id="name" placeholder="Find Recipes" {% if name and name!='' %}value='{{name}}'{% endif %}class="w-full p-2 pl-10 text-stone-600 border border-stone-400 rounded-lg focus:outline-none focus:ring-2 focus:border-green-600">
+                    <img src="{{ url_for('static', filename='img/search_icon.svg') }}" alt="Search" class="absolute inset-y-0 left-4 my-auto w-5 h-5">
+                </div>
                 <div class="flex justify-between mb-6">
                     <select name="category" id="categorySelect" class="w-1/4 p-2 border rounded hover:bg-green-100 m-1 {% if selected_category %}text-green-600{% else %}text-black{% endif %}">
                         <option value="" {% if not selected_category %}selected{% endif %}>Category</option>

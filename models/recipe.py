@@ -9,6 +9,7 @@ def save_recipe(db, recipe):
                                       'name': recipe.name,
                                       'image': recipe.image,
                                       'category': recipe.category,
+                                      'dietary': recipe.dietary,
                                       'flavor': recipe.flavor,
                                       'difficulty': recipe.difficulty,
                                       'description': recipe.description
@@ -19,12 +20,7 @@ def test_recipes_stuff(db):
     user = db.users.find_one({'email': 'daniel@email.com'})
     add_favorite(db, user['_id'],ObjectId("67dc6549376b70409e358a79"))
 
-def get_search_terms_from_post(request):
-    if not request.method == "POST":
-        raise TypeError("Request must be a post request")
-    return request.form.get("category"), request.form.get("flavor"), request.form.get("difficulty"), request.form.get("name")
-
-def search_recipes(db, name='', category='', flavor='', difficulty='', use_text_search=False):
+def search_recipes(db, name='', category='', flavor='', difficulty='', dietary='', use_text_search=False):
     query = {}
     
     if name:
@@ -37,13 +33,15 @@ def search_recipes(db, name='', category='', flavor='', difficulty='', use_text_
             query['name'] = {'$regex': name, '$options': 'i'}
     
     if category:
-        query['category'] = category
+        query['category'] = {'$eq':category}
         
     if flavor:
-        query['flavor'] = flavor
+        query['flavor'] = {'$eq':flavor}
         
     if difficulty:
-        query['difficulty'] = difficulty
+        query['difficulty'] = {'$eq':difficulty}
+    if dietary:
+        query['dietary'] = {'$in':[dietary,"None"]}
     
     return [Recipe(x) for x in db.recipes.find(query)]
     
@@ -97,6 +95,7 @@ class Recipe:
     category = None
     flavor = None
     difficulty = None
+    dietary = None
     
     def __init__(self):
         self.recipeID = ObjectId()
@@ -109,4 +108,5 @@ class Recipe:
         self.category = recipe_cursor['category']
         self.flavor = recipe_cursor['flavor']
         self.difficulty = recipe_cursor['difficulty']
+        self.dietary = recipe_cursor.get('dietary',"None")
         self.description = recipe_cursor.get('description',"Default description!")

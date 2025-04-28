@@ -27,17 +27,18 @@ def recipes():
     flavor = request.args.get('flavor', '')
     dietary = request.args.get('dietary', '')
     difficulty = request.args.get('difficulty', '')
+    name = request.args.get('name','')
 
     # Get recipes with filters
-    filtered_recipes = recipe.search_recipes(current_app.db, name='', category=category, flavor=flavor, difficulty=difficulty) if (category or flavor or difficulty) else recipe.get_recipes(current_app.db)
+    filtered_recipes = recipe.search_recipes(current_app.db, name=name, category=category, flavor=flavor, difficulty=difficulty,dietary = dietary) if (category or flavor or difficulty or dietary or name) else recipe.get_recipes(current_app.db)
     
     # If search_recipes returns None, fall back to all recipes
     if filtered_recipes is None:
         filtered_recipes = recipe.get_recipes(current_app.db)
     
-    return render_template('recipes.html', recipes=filtered_recipes, selected_category=category, selected_flavor=flavor, selected_dietary=dietary, selected_difficulty=difficulty)
+    return render_template('recipes.html', recipes=filtered_recipes, selected_category=category, selected_flavor=flavor, selected_dietary=dietary, selected_difficulty=difficulty, name = name)
 
-@main_bp.route("/add_recipe")
+@main_bp.route("/add_recipe", methods=['GET', 'POST'])
 def add_recipe():
     return render_template('add_recipe.html')
 
