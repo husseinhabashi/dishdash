@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from dishdash.utils.helpers import get_current_user_document
 import dishdash.models.recipe as recipe
+from dishdash.utils.helpers import allowed_file, get_current_user_document
+from werkzeug.utils import secure_filename
+import os
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
@@ -40,6 +43,37 @@ def recipes():
 
 @main_bp.route("/add_recipe", methods=['GET', 'POST'])
 def add_recipe():
+    if request.method == 'POST':
+        users_collection = current_app.users_collection
+
+        user = get_current_user_document(users_collection)
+        if not user:
+            return
+        newRecipe = recipe.Recipe()
+        newRecipe.ownerID = user['_id']
+        newRecipe.name = request.form.get("title")
+        newRecipe.description = request.form.get("description")
+        newRecipe.category = request.form.get("category")
+        newRecipe.flavor = request.form.get("flavor")
+        newRecipe.difficulty = request.form.get("difficulty")
+        newRecipe.dietary = request.form.get("dietary")
+
+
+        file = request.files.get("image")
+        if file and allowed_file(file.filename, current_app.config["ALLOWED_EXTENSIONS"]):
+            ext = file.filename.rsplit('.', 1)[1].lower()
+            new_filename = secure_filename(f"{newRecipe.recipeID}.{ext}")
+            file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], new_filename)
+            
+            try:
+                os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                file.save(file_path)
+                newRecipe.image = os.path.join("img/uploads/",new_filename)
+
+            except Exception as e:
+                print("profile_routes error: ", e)
+                return
+            recipe.save_recipe(current_app.db,newRecipe)
     return render_template('add_recipe.html')
 
 @main_bp.route('/recipes/<recipe_id>')

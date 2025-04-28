@@ -97,11 +97,11 @@ class Recipe:
     difficulty = None
     dietary = None
     
-    def __init__(self):
-        self.recipeID = ObjectId()
-        pass
-    def __init__(self, recipe_cursor):
-        self.recipeID = ObjectId(recipe_cursor['_id'])
+
+    def __init__(self, recipe_cursor=None):
+        self.recipeID = recipe_cursor and ObjectId(recipe_cursor['_id']) or ObjectId()
+        if not recipe_cursor:
+            return
         self.ownerID = recipe_cursor['owner']
         self.name = recipe_cursor['name']
         self.image = recipe_cursor['image']
