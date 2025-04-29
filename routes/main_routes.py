@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, session
-from dishdash.utils.helpers import get_current_user_document
+from ..utils.helpers import get_current_user_document
 import dishdash.models.recipe as recipe
-from dishdash.utils.helpers import allowed_file, get_current_user_document
+from ..utils.helpers import allowed_file, get_current_user_document
 from werkzeug.utils import secure_filename
 import os
 main_bp = Blueprint('main', __name__)

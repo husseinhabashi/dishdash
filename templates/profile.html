@@ -90,22 +90,35 @@
         </main>
     
         <script>
-            document.getElementById("profile-pic").addEventListener("change", function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById("profile-img").src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
+            document.addEventListener('DOMContentLoaded', function() {
+                feather.replace();
+                
+                // Profile picture preview
+                document.getElementById("profile-pic").addEventListener("change", function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById("profile-img").src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+                
+                const usernameInput = document.getElementById('username');
+                const usernameError = document.getElementById('usernameError');
+                
+                usernameInput.addEventListener('input', function() {
+                    const username = this.value.trim();
+                    const isValid = /^[a-zA-Z0-9_]+$/.test(username) || username === '';
+                    
+                    if (!isValid) {
+                        usernameError.classList.remove('hidden');
+                    } else {
+                        usernameError.classList.add('hidden');
+                    }
+                });
             });
-        </script>
-
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-              feather.replace();
-          });
         </script>
     </body>
     </html>
