@@ -1,0 +1,71 @@
+Account Creation
+
+Test Case 1: Valid account creation
+Input: Username: "johndoe", Email: "john@example.com", Password: "Password123!"
+Expected Result: Account created successfully
+
+Test Case 2: Missing username
+Input: Username: "", Email: "john@example.com", Password: "Password123!"
+Expected Result: Account not created - Username is required
+
+Test Case 3: Invalid email format
+Input: Username: "johndoe", Email: "johnexample.com", Password: "Password123!"
+Expected Result: Account not created - Invalid email format
+
+Recipe Adding
+
+Test Case 1: Valid recipe addition
+Input: Recipe Name: "Tomato Soup", Recipe Description: "3 large tomatoes...", Choose Categories, Upload Image
+Expected Result: Recipe added successfully
+
+Test Case 2: Missing Recipe Title
+Input: Recipe Name: "", Recipe Description: "3 large tomatoes...", Choose Categories, Upload Image
+Expected Result: Recipe Not Added - Title Required
+
+Test Case 3: Missing Recipe Image
+Input: Recipe Name: "Tomato Soup", Recipe Description: "3 large tomatoes...", Choose Categories, Image Not Uploaded
+Expected Result: Recipe Not Added - Image not uploaded
+
+Search
+
+Test Case 1: Valid Search
+Input: Valid Recipe i.e. "Carrot"
+Expected Result: Successfully filters "Carrot" recipes
+
+Test Case 2: Valid Search | Non existant recipe
+Input: Search a non-existing recipe i.e. "Honey Nut Cheerios"
+Expected Result: Successfully filters "Honey Nut Cheerios" recipes, no output
+
+Favoriting
+
+Test Case 1: Favorite a recipe
+Input: Click "Favorite Recipe" on a recipe details tab
+Expected Result: Favorited recipe appears in the favorite recipe page
+
+Test Case 2: Un-Favorite a recipe
+Input: Click "Remove Favorite"
+Expected Result: Recipe no longer appears in the favorite recipe page
+
+Filtering
+
+Test Case 1: Apply No Category Filters
+Input: Recipe Page with no selected filters
+Expected Result: All recipes are displayed
+
+Test Case 2: Apply Filters
+Input: Filter "Category" to "Lunch" and "Flavor" to "Sweet"
+Expected Result: Only recipes labeled with "Lunch" and "Sweet" appear
+
+Edit Recipe
+
+Test Case 1: Valid recipe edit
+Input: Change Recipe Description
+Expected Result: Recipe edited successfully - New Description Shown in Recipe Details
+
+Test Case 2: Title edited out
+Input: Recipe Title removed during editing
+Expected Result: Recipe Not Updated - Recipe Title Required
+
+Test Case 3: Recipe Image Changed
+Input: New image uploaded when editing recipe
+Expected Result: Recipe edited successfully - New Image Shwon in Recipe Details
