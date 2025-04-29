@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 min-h-screen relative">
     <!-- Navbar -->
     <nav class="bg-green-500 p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
@@ -53,6 +52,19 @@
             </div>
         </div>
     </nav>
+
+      <button id="chat-toggle" class="fixed bottom-4 left-4 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 focus:outline-none z-50">
+    <i data-feather="message-circle" class="w-6 h-6"></i>
+  </button>
+
+  <div id="chatbox" class="hidden fixed bottom-20 left-4 bg-white border border-gray-300 rounded-lg shadow-lg w-72 z-40">
+    <div class="bg-green-600 text-white p-3 rounded-t-lg font-semibold text-center">
+      DishDash AI
+    </div>
+    <div id="messages" class="h-64 overflow-y-auto p-3 text-sm"></div>
+    <input id="chat-input" type="text" placeholder="Ask something..."
+           class="w-full border-t p-2 text-sm focus:outline-none rounded-b-lg" />
+  </div>
 
     <!-- Main Content -->
     <div class="container mx-auto flex-grow py-8 px-4">
@@ -310,10 +322,47 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
-        });
-    </script>
+<script>
+  // Toggle Chatbox Open/Close
+  const chatToggle = document.getElementById('chat-toggle');
+  const chatbox = document.getElementById('chatbox');
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('messages');
+
+  chatToggle.addEventListener('click', () => {
+    chatbox.classList.toggle('hidden');
+  });
+
+  // Handle Sending Messages
+  input.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      const msg = this.value.trim();
+      if (!msg) return;
+      this.value = '';
+      messages.innerHTML += `<div><strong>You:</strong> ${msg}</div>`;
+
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      })
+      .then(res => res.json())
+      .then(data => {
+        messages.innerHTML += `<div><strong>Bot:</strong> ${data.reply}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+      })
+      .catch(error => {
+        console.error('Chatbot error:', error);
+        messages.innerHTML += `<div><strong>Bot:</strong> Sorry, there was a connection error.</div>`;
+      });
+    }
+  });
+
+  // Render Feather Icons (needed after page loads dynamic buttons)
+  document.addEventListener('DOMContentLoaded', function() {
+    feather.replace();
+  });
+</script>
 </body>
 </html>
+

@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_login import LoginManager
-from .config import Config
-from .routes import register_routes
-from .models.user import User
+from dishdash.config import Config
+from dishdash.routes import register_routes
+from dishdash.models.user import User
 
 # -------------------------
 # App Initialization
