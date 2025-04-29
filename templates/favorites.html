@@ -70,57 +70,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-green-500 text-white">
-        <div class="container mx-auto py-8 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <img src="{{ url_for('static', filename='img/logo.jpeg') }}" class="h-10 w-10 rounded-full" alt="logo" />
-                        <span class="text-xl font-bold">Dish Dash</span>
-                    </div>
-                    <p class="text-white mb-4">Browse, save, and share delicious recipes from all over the world.</p>
-                    <div class="flex space-x-4">
-                        <a href="" class="text-white hover:text-white transition-colors">
-                            <i data-feather="facebook" class="w-5 h-5"></i>
-                        </a>
-                        <a href="" class="text-white hover:text-white transition-colors">
-                            <i data-feather="instagram" class="w-5 h-5"></i>
-                        </a>
-                        <a href="" class="text-white hover:text-white transition-colors flex items-center justify-center w-5 h-5">
-                            <span class="text-xl leading-none pb-0.5">𝕏</span>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{{ url_for('main.index') }}" class="text-white hover:text-white transition-colors">Home</a></li>
-                        <li><a href="{{ url_for('main.recipes') }}" class="text-white hover:text-white transition-colors">Recipes</a></li>
-                        <!-- no functionality-->
-                        <li><a href="#" class="text-white hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="#" class="text-white hover:text-white transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <!-- no functionality-->
-                    <h3 class="text-lg font-semibold">Subscribe</h3>
-                    <p class="text-white mb-2">Get the latest recipes and tips delivered to your inbox.</p>
-                    <form class="flex">
-                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg bg-white focus:outline-none text-gray-800 w-full">
-                        <button type="submit" class="bg-green-800 px-4 py-2 rounded-r-lg hover:bg-green-900 transition-colors">
-                            <i data-feather="send" class="w-5 h-5"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="border-t border-green-400 mt-8 pt-8 text-center text-green-100">
-                <p>&copy; 2025 Dish Dash.</p>
-            </div>
-        </div>
-    </footer>
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
